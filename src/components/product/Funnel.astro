@@ -1,0 +1,133 @@
+---
+interface Props {
+    heading: string;
+    note?: string;
+    steps: { label: string; count: number }[];
+}
+
+const { heading, note, steps } = Astro.props;
+
+const base = steps[0].count;
+const rows = steps.map((step) => {
+    const share = (step.count / base) * 100;
+    return {
+        ...step,
+        share,
+        percent: share < 1 ? `${share.toFixed(2)}%` : `${share.toFixed(1)}%`,
+        count: step.count.toLocaleString("en-US"),
+    };
+});
+---
+
+<section class="funnel" aria-labelledby="funnel-heading" data-reveal>
+    <h2 id="funnel-heading" class="funnel__heading">{heading}</h2>
+
+    <ol class="funnel__list">
+        {
+            rows.map((row) => (
+                <li class="funnel__row" style={`--share:${row.share}`}>
+                    <span class="funnel__fill" aria-hidden="true" />
+                    <span class="funnel__label">{row.label}</span>
+                    <span class="funnel__count">{row.count}</span>
+                    <span class="funnel__percent">{row.percent}</span>
+                </li>
+            ))
+        }
+    </ol>
+
+    {note && <p class="funnel__note">{note}</p>}
+</section>
+
+<style>
+    .funnel {
+        margin: clamp(2.5rem, 7vh, 4.5rem) 0 0;
+    }
+
+    .funnel__heading {
+        margin: 0 0 1.25rem;
+        font-family: var(--mono);
+        font-size: 0.72rem;
+        font-weight: 500;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--muted);
+    }
+
+    .funnel__list {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        border-top: 1px solid var(--rule);
+    }
+
+    .funnel__row {
+        position: relative;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 0.15rem 1rem;
+        align-items: baseline;
+        padding: 0.85rem 1rem;
+        border-bottom: 1px solid var(--rule);
+    }
+
+    .funnel__fill {
+        position: absolute;
+        inset: 0 auto 0 0;
+        background: var(--accent);
+        opacity: 0.14;
+    }
+
+    .funnel__label,
+    .funnel__count,
+    .funnel__percent {
+        position: relative;
+        font-family: var(--mono);
+        font-variant-numeric: tabular-nums;
+    }
+
+    .funnel__label {
+        grid-column: 1;
+        font-size: 0.85rem;
+    }
+
+    .funnel__count {
+        grid-column: 1;
+        font-size: 0.72rem;
+        color: var(--muted);
+    }
+
+    .funnel__percent {
+        grid-column: 2;
+        grid-row: 1 / span 2;
+        font-size: clamp(1.1rem, 2.2vw, 1.5rem);
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        color: var(--accent);
+    }
+
+    .funnel__note {
+        max-width: 44rem;
+        margin: 0.9rem 0 0;
+        font-family: var(--mono);
+        font-size: 0.7rem;
+        line-height: 1.6;
+        color: var(--muted);
+    }
+
+    @media (min-width: 40rem) {
+        .funnel__row {
+            grid-template-columns: minmax(0, 14rem) minmax(0, 1fr) auto;
+            gap: 1.5rem;
+        }
+
+        .funnel__count {
+            grid-column: 2;
+            font-size: 0.8rem;
+        }
+
+        .funnel__percent {
+            grid-column: 3;
+            grid-row: 1;
+        }
+    }
+</style>

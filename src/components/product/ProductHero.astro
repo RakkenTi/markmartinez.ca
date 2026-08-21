@@ -1,0 +1,598 @@
+---
+interface Props {
+    title: string;
+    summary: string;
+    status: string;
+    meta: string[];
+    tags: string[];
+    links: [string, string][];
+    writeup?: string;
+    writeupLabel?: string;
+    layout: string;
+    highlights: { value: string; label: string }[];
+    hero: {
+        alt: string;
+        frames: string[];
+        video?: string;
+        poster?: string;
+        note?: string;
+        fit: "cover" | "contain";
+    };
+}
+
+const {
+    title,
+    summary,
+    status,
+    meta,
+    tags,
+    links,
+    writeup,
+    writeupLabel = "Read more",
+    layout,
+    highlights,
+    hero,
+} = Astro.props;
+const frames = hero.frames.slice(0, 4);
+const rotates = !hero.video && frames.length > 1;
+---
+
+<header class:list={["ph", `ph--${layout}`]}>
+    <div class="ph__text">
+        <p class="ph__meta">
+            <span class="ph__status">{status}</span>
+            {
+                meta.map((item) => (
+                    <>
+                        <span class="ph__sep" aria-hidden="true">
+                            /
+                        </span>
+                        <span>{item}</span>
+                    </>
+                ))
+            }
+        </p>
+        <h1 class="ph__title">{title}</h1>
+        <p class="ph__summary">{summary}</p>
+
+        {
+            tags.length > 0 && (
+                <ul class="ph__tags">
+                    {tags.map((tag) => (
+                        <li class="ph__tag">{tag}</li>
+                    ))}
+                </ul>
+            )
+        }
+
+        {
+            (links.length > 0 || writeup) && (
+                <p class="ph__actions">
+                    {links.map(([label, href], index) => (
+                        <a
+                            class:list={[
+                                "ph__cta",
+                                index === 0 && "ph__cta--solid",
+                            ]}
+                            href={href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            {label}
+                            <svg
+                                class="ph__cta-arrow"
+                                viewBox="0 0 16 16"
+                                width="16"
+                                height="16"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="1.9"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                aria-hidden="true"
+                            >
+                                <path d="M5 11 11 5M6 5h5v5" />
+                            </svg>
+                        </a>
+                    ))}
+                    {writeup && (
+                        <a class="ph__cta" href={writeup}>
+                            {writeupLabel}
+                            <svg
+                                class="ph__cta-arrow ph__cta-arrow--go"
+                                viewBox="0 0 16 16"
+                                width="16"
+                                height="16"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="1.9"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                aria-hidden="true"
+                            >
+                                <path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" />
+                            </svg>
+                        </a>
+                    )}
+                </p>
+            )
+        }
+
+        {
+            highlights.length > 0 && layout !== "game" && (
+                <dl class="ph__stats">
+                    {highlights.map((item) => (
+                        <div class="ph__stat">
+                            <dt class="ph__stat-value" data-count={item.value}>
+                                {item.value}
+                            </dt>
+                            <dd class="ph__stat-label">{item.label}</dd>
+                        </div>
+                    ))}
+                </dl>
+            )
+        }
+    </div>
+
+    <div class="ph__media">
+        <div class="ph__frame">
+            {
+                layout === "app" && (
+                    <span class="ph__chrome" aria-hidden="true">
+                        <span />
+                        <span />
+                        <span />
+                    </span>
+                )
+            }
+            {
+                hero.video ? (
+                    <video
+                        class="ph__video"
+                        src={hero.video}
+                        poster={hero.poster ?? frames[0]}
+                        aria-label={hero.alt}
+                        autoplay
+                        loop
+                        muted
+                        playsinline
+                        controls
+                    />
+                ) : rotates ? (
+                    <span
+                        class:list={["ph__stack", `ph__stack--${frames.length}`]}
+                    >
+                        {frames.map((src, index) => (
+                            <img
+                                class="ph__shot"
+                                style={`--i:${index}`}
+                                src={src}
+                                alt={index === 0 ? hero.alt : ""}
+                                fetchpriority={index === 0 ? "high" : undefined}
+                            />
+                        ))}
+                    </span>
+                ) : (
+                    <img
+                        class:list={[
+                            "ph__shot",
+                            hero.fit === "contain" && "ph__shot--contain",
+                        ]}
+                        src={frames[0]}
+                        alt={hero.alt}
+                        fetchpriority="high"
+                    />
+                )
+            }
+        </div>
+        {hero.note && <p class="ph__note">{hero.note}</p>}
+    </div>
+
+    {
+        highlights.length > 0 && layout === "game" && (
+            <dl class="ph__stats ph__stats--band">
+                {highlights.map((item) => (
+                    <div class="ph__stat">
+                        <dt class="ph__stat-value" data-count={item.value}>
+                            {item.value}
+                        </dt>
+                        <dd class="ph__stat-label">{item.label}</dd>
+                    </div>
+                ))}
+            </dl>
+        )
+    }
+</header>
+
+<style>
+    .ph {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        gap: clamp(2rem, 5vw, 3.5rem);
+        align-items: center;
+        padding: clamp(1.5rem, 5vh, 3rem) 0 0;
+    }
+
+    .ph__text {
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+    }
+
+    .ph--engine .ph__actions {
+        order: 1;
+    }
+
+    .ph__meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin: 0;
+        font-family: var(--mono);
+        font-size: 0.72rem;
+        line-height: 1.5;
+        color: var(--muted);
+    }
+
+    .ph__status {
+        font-weight: 500;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--accent);
+    }
+
+    .ph__sep {
+        color: var(--rule);
+    }
+
+    .ph__title {
+        margin: 0.5rem 0 0;
+        font-family: var(--display);
+        font-size: clamp(2.5rem, 5.5vw, 4rem);
+        font-weight: 400;
+        line-height: 1.03;
+        letter-spacing: -0.028em;
+        text-wrap: balance;
+    }
+
+    .ph__summary {
+        margin: 1.1rem 0 0;
+        max-width: 34rem;
+        font-size: 1.05rem;
+        line-height: 1.6;
+        color: var(--muted);
+        text-wrap: pretty;
+    }
+
+    .ph__tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.45rem;
+        margin: 1.4rem 0 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .ph__tag {
+        padding: 0.3rem 0.7rem;
+        border: 1px solid var(--rule);
+        border-radius: 999px;
+        font-family: var(--mono);
+        font-size: 0.7rem;
+        line-height: 1.4;
+        color: var(--muted);
+    }
+
+    .ph__actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.7rem;
+        margin: 1.6rem 0 0;
+    }
+
+    .ph__cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        padding: 0.65rem 1.2rem;
+        border: 1px solid var(--rule);
+        font-family: var(--body);
+        font-size: 0.85rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition:
+            background 0.22s ease,
+            border-color 0.22s ease,
+            color 0.22s ease;
+    }
+
+    .ph__cta--solid {
+        background: var(--accent);
+        border-color: var(--accent);
+        color: var(--paper);
+    }
+
+    .ph__cta:hover,
+    .ph__cta:focus-visible {
+        border-color: var(--accent);
+        color: var(--accent);
+        background: transparent;
+    }
+
+    .ph__cta-arrow {
+        width: 0.8rem;
+        height: 0.8rem;
+        transition: transform 0.22s ease;
+    }
+
+    .ph__cta:hover .ph__cta-arrow {
+        transform: translate(0.1rem, -0.1rem);
+    }
+
+    .ph__cta:hover .ph__cta-arrow--go {
+        transform: translateX(0.15rem);
+    }
+
+    .ph__media {
+        min-width: 0;
+    }
+
+    .ph__frame {
+        position: relative;
+        overflow: hidden;
+        border: 1px solid var(--rule);
+        background: var(--raise);
+    }
+
+    .ph__shot,
+    .ph__video {
+        display: block;
+        width: 100%;
+    }
+
+    .ph__video {
+        aspect-ratio: 16 / 9;
+        background: #000;
+    }
+
+    .ph__shot--contain {
+        object-fit: contain;
+        padding: clamp(1.5rem, 5vw, 3rem);
+    }
+
+    .ph__note {
+        margin: 0.7rem 0 0;
+        font-family: var(--mono);
+        font-size: 0.7rem;
+        line-height: 1.6;
+        color: var(--muted);
+    }
+
+    .ph__chrome {
+        display: flex;
+        gap: 0.4rem;
+        padding: 0.6rem 0.75rem;
+        border-bottom: 1px solid var(--rule);
+        background: var(--paper);
+    }
+
+    .ph__chrome span {
+        width: 0.5rem;
+        height: 0.5rem;
+        border-radius: 50%;
+        background: var(--rule);
+    }
+
+    .ph__stack {
+        display: grid;
+        aspect-ratio: 16 / 9;
+    }
+
+    .ph__stack .ph__shot {
+        grid-area: 1 / 1;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .ph__stats {
+        display: grid;
+        gap: 1px;
+        margin: clamp(1.75rem, 4vh, 2.5rem) 0 0;
+        padding: 1px;
+        background: var(--rule);
+        border: 1px solid var(--rule);
+    }
+
+    .ph__stat {
+        padding: 0.9rem 1rem;
+        background: var(--paper);
+    }
+
+    .ph__stat-value {
+        margin: 0;
+        font-family: var(--mono);
+        font-size: clamp(1.4rem, 2.8vw, 1.95rem);
+        font-weight: 700;
+        line-height: 1.05;
+        letter-spacing: -0.03em;
+        color: var(--accent);
+        font-variant-numeric: tabular-nums;
+    }
+
+    .ph__stat-label {
+        margin: 0.4rem 0 0;
+        font-family: var(--mono);
+        font-size: 0.66rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--muted);
+    }
+
+    .ph__stat-value {
+        white-space: nowrap;
+    }
+
+    .ph__stats--band {
+        grid-auto-flow: column;
+        grid-auto-columns: minmax(0, 1fr);
+        margin-top: 0;
+    }
+
+    .ph__stats--band .ph__stat {
+        padding: clamp(1.1rem, 3vw, 1.75rem) clamp(1rem, 2.5vw, 1.75rem);
+    }
+
+    .ph__stats--band .ph__stat-value {
+        font-size: clamp(2rem, 4.5vw, 3.4rem);
+    }
+
+    .ph__stats--band .ph__stat-label {
+        margin-top: 0.55rem;
+    }
+
+    .ph--engine .ph__stat {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 1rem;
+    }
+
+    .ph--engine .ph__stat-label {
+        margin: 0;
+        text-align: right;
+    }
+
+    @media (min-width: 54rem) {
+        .ph--app {
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+        }
+
+        .ph--game {
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+        }
+
+        .ph--engine {
+            grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.5fr);
+        }
+
+        .ph__stats--band {
+            grid-column: 1 / -1;
+        }
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+        .ph__text > * {
+            animation: phIn 0.7s cubic-bezier(0.2, 0.7, 0.3, 1) backwards;
+        }
+
+        .ph__text > :nth-child(1) {
+            animation-delay: 0.04s;
+        }
+        .ph__text > :nth-child(2) {
+            animation-delay: 0.1s;
+        }
+        .ph__text > :nth-child(3) {
+            animation-delay: 0.16s;
+        }
+        .ph__text > :nth-child(4) {
+            animation-delay: 0.22s;
+        }
+        .ph__text > :nth-child(5) {
+            animation-delay: 0.28s;
+        }
+        .ph__text > :nth-child(6) {
+            animation-delay: 0.34s;
+        }
+
+        .ph__media {
+            animation: phMedia 0.9s cubic-bezier(0.2, 0.7, 0.3, 1) 0.12s backwards;
+        }
+
+        .ph__stats--band {
+            animation: phIn 0.7s cubic-bezier(0.2, 0.7, 0.3, 1) 0.3s backwards;
+        }
+
+        .ph__stack--2 .ph__shot {
+            animation: phStack2 9s infinite backwards;
+            animation-delay: calc(var(--i) * 4.5s);
+        }
+
+        .ph__stack--3 .ph__shot {
+            animation: phStack3 13.5s infinite backwards;
+            animation-delay: calc(var(--i) * 4.5s);
+        }
+
+        .ph__stack--4 .ph__shot {
+            animation: phStack4 18s infinite backwards;
+            animation-delay: calc(var(--i) * 4.5s);
+        }
+    }
+
+    @keyframes phIn {
+        from {
+            opacity: 0;
+            transform: translateY(0.9rem);
+        }
+    }
+
+    @keyframes phMedia {
+        from {
+            opacity: 0;
+            transform: translateY(1.4rem) scale(0.985);
+        }
+    }
+
+    @keyframes phStack2 {
+        0% {
+            opacity: 0;
+        }
+        5.56%,
+        50% {
+            opacity: 1;
+        }
+        55.56%,
+        100% {
+            opacity: 0;
+        }
+    }
+
+    @keyframes phStack3 {
+        0% {
+            opacity: 0;
+        }
+        3.7%,
+        33.33% {
+            opacity: 1;
+        }
+        37.04%,
+        100% {
+            opacity: 0;
+        }
+    }
+
+    @keyframes phStack4 {
+        0% {
+            opacity: 0;
+        }
+        2.78%,
+        25% {
+            opacity: 1;
+        }
+        27.78%,
+        100% {
+            opacity: 0;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .ph__stack .ph__shot:not(:first-child) {
+            display: none;
+        }
+
+        .ph__cta,
+        .ph__cta-arrow {
+            transition: none;
+        }
+    }
+</style>

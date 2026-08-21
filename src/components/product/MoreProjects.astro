@@ -1,0 +1,157 @@
+---
+interface Item {
+    slug: string;
+    title: string;
+    summary: string;
+    media: string;
+    meta: string;
+}
+
+interface Props {
+    items: Item[];
+}
+
+const { items } = Astro.props;
+---
+
+<section class="more" aria-labelledby="more-heading" data-reveal>
+    <h2 id="more-heading" class="more__heading">More work</h2>
+    <ul class="more__grid">
+        {
+            items.map((item) => (
+                <li>
+                    <a class="mcard" href={`/projects/${item.slug}/`}>
+                        <span class="mcard__media">
+                            <img
+                                src={item.media}
+                                alt=""
+                                loading="lazy"
+                                decoding="async"
+                            />
+                        </span>
+                        <span class="mcard__body">
+                            <span class="mcard__title">{item.title}</span>
+                            <span class="mcard__meta">{item.meta}</span>
+                            <span class="mcard__summary">{item.summary}</span>
+                        </span>
+                    </a>
+                </li>
+            ))
+        }
+    </ul>
+</section>
+
+<style>
+    .more {
+        margin: clamp(3.5rem, 9vh, 6rem) 0 0;
+        padding: clamp(2rem, 5vh, 3rem) 0 0;
+        border-top: 1px solid var(--rule);
+    }
+
+    .more__heading {
+        margin: 0;
+        font-family: var(--mono);
+        font-size: 0.72rem;
+        font-weight: 500;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--muted);
+    }
+
+    .more__grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+        gap: clamp(1rem, 2vw, 1.5rem);
+        margin: 1.5rem 0 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .mcard {
+        display: grid;
+        grid-template-rows: auto 1fr;
+        height: 100%;
+        border: 1px solid var(--rule);
+        color: inherit;
+        text-decoration: none;
+        transition:
+            border-color 0.22s ease,
+            transform 0.22s cubic-bezier(0.2, 0.7, 0.3, 1);
+    }
+
+    .mcard:hover,
+    .mcard:focus-visible {
+        border-color: var(--accent);
+        transform: translateY(-0.25rem);
+    }
+
+    .mcard__media {
+        display: block;
+        overflow: hidden;
+        aspect-ratio: 16 / 10;
+        background: var(--raise);
+        border-bottom: 1px solid var(--rule);
+    }
+
+    .mcard__media img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.3, 1);
+    }
+
+    .mcard:hover .mcard__media img {
+        transform: scale(1.05);
+    }
+
+    .mcard__body {
+        display: block;
+        padding: 0.9rem 1rem 1.1rem;
+    }
+
+    .mcard__title {
+        display: block;
+        font-family: var(--display);
+        font-size: 1.25rem;
+        line-height: 1.2;
+        letter-spacing: -0.015em;
+    }
+
+    .mcard__meta {
+        display: block;
+        margin: 0.35rem 0 0;
+        font-family: var(--mono);
+        font-size: 0.68rem;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--muted);
+    }
+
+    .mcard__summary {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+        overflow: hidden;
+        margin: 0.6rem 0 0;
+        font-size: 0.875rem;
+        line-height: 1.5;
+        color: var(--muted);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .mcard,
+        .mcard__media img {
+            transition: none;
+        }
+
+        .mcard:hover {
+            transform: none;
+        }
+
+        .mcard:hover .mcard__media img {
+            transform: none;
+        }
+    }
+</style>

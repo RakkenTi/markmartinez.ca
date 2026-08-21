@@ -1,0 +1,76 @@
+---
+interface Props {
+    href: string;
+    label: string;
+}
+
+const { href, label } = Astro.props;
+---
+
+<p class="wcta" data-reveal>
+    <a class="wcta__link" href={href}>
+        {label}
+        <svg
+            class="wcta__arrow"
+            viewBox="0 0 16 16"
+            width="16"
+            height="16"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.9"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+        >
+            <path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5"></path>
+        </svg>
+    </a>
+</p>
+
+<style>
+    .wcta {
+        margin: clamp(1.5rem, 4vh, 2.25rem) 0 0;
+    }
+
+    .wcta__link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        padding: 0.65rem 1.2rem;
+        border: 1px solid var(--rule);
+        font-family: var(--body);
+        font-size: 0.85rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition:
+            border-color 0.22s ease,
+            color 0.22s ease;
+    }
+
+    .wcta__link:hover,
+    .wcta__link:focus-visible {
+        border-color: var(--accent);
+        color: var(--accent);
+    }
+
+    .wcta__arrow {
+        width: 0.8rem;
+        height: 0.8rem;
+        transition: transform 0.22s ease;
+    }
+
+    .wcta__link:hover .wcta__arrow {
+        transform: translateX(0.15rem);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .wcta__link,
+        .wcta__arrow {
+            transition: none;
+        }
+
+        .wcta__link:hover .wcta__arrow {
+            transform: none;
+        }
+    }
+</style>

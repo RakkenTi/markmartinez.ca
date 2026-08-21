@@ -1,0 +1,253 @@
+---
+interface Machine {
+    name: string;
+    score?: string;
+    system: { label: string; value: string }[];
+    rows: { label: string; tag?: string; values: string[] }[];
+}
+
+interface Props {
+    heading: string;
+    note?: string;
+    fpsFloor: number;
+    columns: string[];
+    machines: Machine[];
+}
+
+const { heading, note, fpsFloor, columns, machines } = Astro.props;
+
+const fpsColumn = columns.findIndex((column) => /fps/i.test(column));
+
+const holds = (column: number, value: string) =>
+    column === fpsColumn &&
+    Number.parseFloat(value.replace(/,/g, "")) >= fpsFloor;
+---
+
+<section class="metrics" aria-labelledby="metrics-heading" data-reveal>
+    <h2 id="metrics-heading" class="metrics__heading">{heading}</h2>
+
+    {
+        machines.map((machine) => (
+            <div class="metrics__machine">
+                <div class="metrics__bar">
+                    <span class="metrics__name">{machine.name}</span>
+                    {machine.system.length > 0 && (
+                        <dl class="metrics__system">
+                            {machine.system.map((item) => (
+                                <div class="metrics__spec">
+                                    <dt>{item.label}</dt>
+                                    <dd>{item.value}</dd>
+                                </div>
+                            ))}
+                        </dl>
+                    )}
+                    {machine.score && (
+                        <span class="metrics__score">
+                            Score <b>{machine.score}</b>
+                        </span>
+                    )}
+                </div>
+
+                <div class="metrics__scroll">
+                    <table class="metrics__table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Profile</th>
+                                {columns.map((column) => (
+                                    <th scope="col">{column}</th>
+                                ))}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {machine.rows.map((row, index) => (
+                                <tr style={`--row:${index}`}>
+                                    <th scope="row">
+                                        {row.label}
+                                        {row.tag && (
+                                            <span class="metrics__tag">
+                                                {row.tag}
+                                            </span>
+                                        )}
+                                    </th>
+                                    {row.values.map((value, column) => (
+                                        <td
+                                            class:list={[
+                                                holds(column, value) &&
+                                                    "metrics__cell--holds",
+                                            ]}
+                                        >
+                                            {value}
+                                        </td>
+                                    ))}
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        ))
+    }
+
+    {note && <p class="metrics__note">{note}</p>}
+</section>
+
+<style>
+    .metrics {
+        margin: clamp(2.5rem, 7vh, 4.5rem) 0 0;
+    }
+
+    .metrics__heading {
+        margin: 0 0 1.25rem;
+        font-family: var(--mono);
+        font-size: 0.72rem;
+        font-weight: 500;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--muted);
+    }
+
+    .metrics__machine {
+        border: 1px solid var(--rule);
+    }
+
+    .metrics__machine + .metrics__machine {
+        margin-top: clamp(1rem, 2.5vw, 1.5rem);
+    }
+
+    .metrics__bar {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        gap: 0.5rem 1.25rem;
+        padding: 0.85rem 1rem;
+        border-bottom: 1px solid var(--rule);
+        background: var(--raise);
+    }
+
+    .metrics__name {
+        font-family: var(--mono);
+        font-size: 0.72rem;
+        font-weight: 600;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--accent);
+    }
+
+    .metrics__system {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.3rem 1.1rem;
+        margin: 0;
+    }
+
+    .metrics__spec {
+        display: flex;
+        gap: 0.4rem;
+        font-family: var(--mono);
+        font-size: 0.7rem;
+        line-height: 1.5;
+    }
+
+    .metrics__spec dt {
+        color: var(--muted);
+    }
+
+    .metrics__spec dt::after {
+        content: ":";
+    }
+
+    .metrics__spec dd {
+        margin: 0;
+    }
+
+    .metrics__score {
+        margin-left: auto;
+        font-family: var(--mono);
+        font-size: 0.7rem;
+        color: var(--muted);
+    }
+
+    .metrics__score b {
+        color: var(--ink);
+        font-variant-numeric: tabular-nums;
+    }
+
+    .metrics__scroll {
+        overflow-x: auto;
+    }
+
+    .metrics__table {
+        width: 100%;
+        min-width: 44rem;
+        border-collapse: collapse;
+        font-family: var(--mono);
+        font-variant-numeric: tabular-nums;
+    }
+
+    .metrics__table th,
+    .metrics__table td {
+        padding: 0.7rem 1rem;
+        text-align: right;
+        white-space: nowrap;
+    }
+
+    .metrics__table thead th {
+        font-size: 0.64rem;
+        font-weight: 500;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--muted);
+        border-bottom: 1px solid var(--rule);
+    }
+
+    .metrics__table thead th:first-child,
+    .metrics__table tbody th {
+        text-align: left;
+    }
+
+    .metrics__table tbody th {
+        font-size: 0.78rem;
+        font-weight: 600;
+    }
+
+    .metrics__table tbody tr + tr th,
+    .metrics__table tbody tr + tr td {
+        border-top: 1px solid var(--rule);
+    }
+
+    .metrics__table tbody tr:hover th,
+    .metrics__table tbody tr:hover td {
+        background: var(--raise);
+    }
+
+    .metrics__table tbody td {
+        font-size: 0.8rem;
+        color: var(--muted);
+    }
+
+    .metrics__table tbody td.metrics__cell--holds {
+        color: var(--accent);
+        font-weight: 700;
+    }
+
+    .metrics__tag {
+        margin-left: 0.5rem;
+        padding: 0.15rem 0.45rem;
+        border: 1px solid var(--rule);
+        border-radius: 999px;
+        font-size: 0.6rem;
+        font-weight: 500;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--muted);
+    }
+
+    .metrics__note {
+        max-width: 44rem;
+        margin: 0.9rem 0 0;
+        font-family: var(--mono);
+        font-size: 0.7rem;
+        line-height: 1.6;
+        color: var(--muted);
+    }
+</style>
