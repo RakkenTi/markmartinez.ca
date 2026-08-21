@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <title>Godot Swarm</title>
+
+  <defs>
+    <linearGradient id="twoFlightDeep" gradientUnits="userSpaceOnUse" x1="256" y1="256" x2="256" y2="40">
+      <stop offset="0" stop-color="#3f7fb2"/>
+      <stop offset="1" stop-color="#74cfef"/>
+    </linearGradient>
+    <linearGradient id="twoGroundDeep" gradientUnits="userSpaceOnUse" x1="256" y1="256" x2="256" y2="472">
+      <stop offset="0" stop-color="#3f7fb2"/>
+      <stop offset="1" stop-color="#2f3480"/>
+    </linearGradient>
+    <linearGradient id="twoFlightMid" gradientUnits="userSpaceOnUse" x1="256" y1="256" x2="256" y2="40">
+      <stop offset="0" stop-color="#5299ca"/>
+      <stop offset="1" stop-color="#96dff9"/>
+    </linearGradient>
+    <linearGradient id="twoGroundMid" gradientUnits="userSpaceOnUse" x1="256" y1="256" x2="256" y2="472">
+      <stop offset="0" stop-color="#5299ca"/>
+      <stop offset="1" stop-color="#414a9c"/>
+    </linearGradient>
+    <linearGradient id="twoFlightFine" gradientUnits="userSpaceOnUse" x1="256" y1="256" x2="256" y2="40">
+      <stop offset="0" stop-color="#74b6dd"/>
+      <stop offset="1" stop-color="#c2f0ff"/>
+    </linearGradient>
+    <linearGradient id="twoGroundFine" gradientUnits="userSpaceOnUse" x1="256" y1="256" x2="256" y2="472">
+      <stop offset="0" stop-color="#74b6dd"/>
+      <stop offset="1" stop-color="#6a72c4"/>
+    </linearGradient>
+  </defs>
+
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path stroke="url(#twoFlightDeep)" stroke-width="7" d="M 236.04,289.16 L 217.68,275.77 L 238.72,271.96"/>
+    <path stroke="url(#twoFlightDeep)" stroke-width="6.85" d="M 203.28,279.35 L 189.27,261.94 L 210.25,263.71"/>
+    <path stroke="url(#twoFlightDeep)" stroke-width="6.69" d="M 174.26,261.34 L 165.41,241.22 L 184.9,248.28"/>
+    <path stroke="url(#twoFlightDeep)" stroke-width="6.54" d="M 150.97,236.39 L 147.73,215.03 L 164.43,226.73"/>
+    <path stroke="url(#twoFlightDeep)" stroke-width="6.38" d="M 135.04,206.26 L 137.43,185.15 L 150.3,200.55"/>
+    <path stroke="url(#twoFlightDeep)" stroke-width="6.23" d="M 127.56,173.04 L 135.22,153.63 L 143.5,171.55"/>
+    <path stroke="url(#twoFlightDeep)" stroke-width="6.08" d="M 129.01,139.06 L 141.25,122.61 L 144.52,141.74"/>
+    <path stroke="url(#twoFlightDeep)" stroke-width="5.92" d="M 139.29,106.67 L 155.1,94.21 L 153.31,113.2"/>
+    <path stroke="url(#twoFlightDeep)" stroke-width="5.77" d="M 157.67,78.13 L 175.84,70.36 L 169.28,87.92"/>
+    <path stroke="url(#twoFlightDeep)" stroke-width="5.62" d="M 182.84,55.42 L 202.04,52.7 L 191.33,67.67"/>
+    <path stroke="url(#twoFlightDeep)" stroke-width="5.46" d="M 213.04,40.09 L 231.92,42.42 L 217.94,53.88"/>
+    <path stroke="url(#twoFlightDeep)" stroke-width="5.31" d="M 246.16,33.2 L 263.45,40.23 L 247.26,47.51"/>
+    <path stroke="url(#twoFlightDeep)" stroke-width="5.15" d="M 279.9,35.21 L 294.46,46.28 L 277.27,49.04"/>
+    <path stroke="url(#twoFlightDeep)" stroke-width="5" d="M 311.9,45.96 L 322.85,60.15 L 305.87,58.37"/>
+    <path stroke="url(#twoGroundDeep)" stroke-width="7" d="M 275.96,222.84 L 294.32,236.23 L 273.28,240.04"/>
+    <path stroke="url(#twoGroundDeep)" stroke-width="6.85" d="M 308.72,232.65 L 322.73,250.06 L 301.75,248.29"/>
+    <path stroke="url(#twoGroundDeep)" stroke-width="6.69" d="M 337.74,250.66 L 346.59,270.78 L 327.1,263.72"/>
+    <path stroke="url(#twoGroundDeep)" stroke-width="6.54" d="M 361.03,275.61 L 364.27,296.97 L 347.57,285.27"/>
+    <path stroke="url(#twoGroundDeep)" stroke-width="6.38" d="M 376.96,305.74 L 374.57,326.85 L 361.7,311.45"/>
+    <path stroke="url(#twoGroundDeep)" stroke-width="6.23" d="M 384.44,338.96 L 376.78,358.37 L 368.5,340.45"/>
+    <path stroke="url(#twoGroundDeep)" stroke-width="6.08" d="M 382.99,372.94 L 370.75,389.39 L 367.48,370.26"/>
+    <path stroke="url(#twoGroundDeep)" stroke-width="5.92" d="M 372.71,405.33 L 356.9,417.79 L 358.69,398.8"/>
+    <path stroke="url(#twoGroundDeep)" stroke-width="5.77" d="M 354.33,433.87 L 336.16,441.64 L 342.72,424.08"/>
+    <path stroke="url(#twoGroundDeep)" stroke-width="5.62" d="M 329.16,456.58 L 309.96,459.3 L 320.67,444.33"/>
+    <path stroke="url(#twoGroundDeep)" stroke-width="5.46" d="M 298.96,471.91 L 280.08,469.58 L 294.06,458.12"/>
+    <path stroke="url(#twoGroundDeep)" stroke-width="5.31" d="M 265.84,478.8 L 248.55,471.77 L 264.74,464.49"/>
+    <path stroke="url(#twoGroundDeep)" stroke-width="5.15" d="M 232.1,476.79 L 217.54,465.72 L 234.73,462.96"/>
+    <path stroke="url(#twoGroundDeep)" stroke-width="5" d="M 200.1,466.04 L 189.15,451.85 L 206.13,453.63"/>
+    <path stroke="url(#twoFlightMid)" stroke-width="5.5" d="M 229.97,259.52 L 216.59,247.44 L 233.5,246.18"/>
+    <path stroke="url(#twoFlightMid)" stroke-width="5.36" d="M 205.27,249.22 L 195.68,234.39 L 212.01,237.49"/>
+    <path stroke="url(#twoFlightMid)" stroke-width="5.23" d="M 184.13,232.86 L 178.82,216.4 L 193.51,223.48"/>
+    <path stroke="url(#twoFlightMid)" stroke-width="5.09" d="M 168.01,211.58 L 167.17,194.67 L 179.27,205.11"/>
+    <path stroke="url(#twoFlightMid)" stroke-width="4.95" d="M 158,186.87 L 161.49,170.68 L 170.29,183.63"/>
+    <path stroke="url(#twoFlightMid)" stroke-width="4.82" d="M 154.78,160.45 L 162.19,146.04 L 167.22,160.52"/>
+    <path stroke="url(#twoFlightMid)" stroke-width="4.68" d="M 158.55,134.13 L 169.2,122.4 L 170.28,137.36"/>
+    <path stroke="url(#twoFlightMid)" stroke-width="4.55" d="M 169.04,109.74 L 182.05,101.36 L 179.28,115.78"/>
+    <path stroke="url(#twoFlightMid)" stroke-width="4.41" d="M 185.49,88.95 L 199.89,84.34 L 193.62,97.25"/>
+    <path stroke="url(#twoFlightMid)" stroke-width="4.27" d="M 206.77,73.19 L 221.5,72.49 L 212.32,83.08"/>
+    <path stroke="url(#twoFlightMid)" stroke-width="4.14" d="M 231.38,63.52 L 245.44,66.59 L 234.09,74.26"/>
+    <path stroke="url(#twoFlightMid)" stroke-width="4" d="M 257.63,60.61 L 270.09,67.05 L 257.45,71.41"/>
+    <path stroke="url(#twoGroundMid)" stroke-width="5.5" d="M 282.03,252.48 L 295.41,264.56 L 278.5,265.82"/>
+    <path stroke="url(#twoGroundMid)" stroke-width="5.36" d="M 306.73,262.78 L 316.32,277.61 L 299.99,274.51"/>
+    <path stroke="url(#twoGroundMid)" stroke-width="5.23" d="M 327.87,279.14 L 333.18,295.6 L 318.49,288.52"/>
+    <path stroke="url(#twoGroundMid)" stroke-width="5.09" d="M 343.99,300.42 L 344.83,317.33 L 332.73,306.89"/>
+    <path stroke="url(#twoGroundMid)" stroke-width="4.95" d="M 354,325.13 L 350.51,341.32 L 341.71,328.37"/>
+    <path stroke="url(#twoGroundMid)" stroke-width="4.82" d="M 357.22,351.55 L 349.81,365.96 L 344.78,351.48"/>
+    <path stroke="url(#twoGroundMid)" stroke-width="4.68" d="M 353.45,377.87 L 342.8,389.6 L 341.72,374.64"/>
+    <path stroke="url(#twoGroundMid)" stroke-width="4.55" d="M 342.96,402.26 L 329.95,410.64 L 332.72,396.22"/>
+    <path stroke="url(#twoGroundMid)" stroke-width="4.41" d="M 326.51,423.05 L 312.11,427.66 L 318.38,414.75"/>
+    <path stroke="url(#twoGroundMid)" stroke-width="4.27" d="M 305.23,438.81 L 290.5,439.51 L 299.68,428.92"/>
+    <path stroke="url(#twoGroundMid)" stroke-width="4.14" d="M 280.62,448.48 L 266.56,445.41 L 277.91,437.74"/>
+    <path stroke="url(#twoGroundMid)" stroke-width="4" d="M 254.37,451.39 L 241.91,444.95 L 254.55,440.59"/>
+    <path stroke="url(#twoFlightFine)" stroke-width="4" d="M 215.96,223.35 L 209.31,211.8 L 221.47,214.77"/>
+    <path stroke="url(#twoFlightFine)" stroke-width="3.83" d="M 200.31,209.65 L 197.2,197.1 L 207.76,203.14"/>
+    <path stroke="url(#twoFlightFine)" stroke-width="3.65" d="M 189.1,192.17 L 189.57,179.65 L 197.81,188.11"/>
+    <path stroke="url(#twoFlightFine)" stroke-width="3.48" d="M 183.22,172.3 L 187,160.78 L 192.41,170.87"/>
+    <path stroke="url(#twoFlightFine)" stroke-width="3.3" d="M 183.1,151.62 L 189.69,141.93 L 192.03,152.77"/>
+    <path stroke="url(#twoFlightFine)" stroke-width="3.12" d="M 188.73,131.77 L 197.43,124.52 L 196.71,135.24"/>
+    <path stroke="url(#twoFlightFine)" stroke-width="2.95" d="M 199.63,114.3 L 209.63,109.9 L 206.1,119.66"/>
+    <path stroke="url(#twoFlightFine)" stroke-width="2.78" d="M 214.94,100.58 L 225.37,99.17 L 219.49,107.28"/>
+    <path stroke="url(#twoFlightFine)" stroke-width="2.6" d="M 233.41,91.69 L 243.44,93.15 L 235.83,99.1"/>
+    <path stroke="url(#twoGroundFine)" stroke-width="4" d="M 296.04,288.65 L 302.69,300.2 L 290.53,297.23"/>
+    <path stroke="url(#twoGroundFine)" stroke-width="3.83" d="M 311.69,302.35 L 314.8,314.9 L 304.24,308.86"/>
+    <path stroke="url(#twoGroundFine)" stroke-width="3.65" d="M 322.9,319.83 L 322.43,332.35 L 314.19,323.89"/>
+    <path stroke="url(#twoGroundFine)" stroke-width="3.48" d="M 328.78,339.7 L 325,351.22 L 319.59,341.13"/>
+    <path stroke="url(#twoGroundFine)" stroke-width="3.3" d="M 328.9,360.38 L 322.31,370.07 L 319.97,359.23"/>
+    <path stroke="url(#twoGroundFine)" stroke-width="3.12" d="M 323.27,380.23 L 314.57,387.48 L 315.29,376.76"/>
+    <path stroke="url(#twoGroundFine)" stroke-width="2.95" d="M 312.37,397.7 L 302.37,402.1 L 305.9,392.34"/>
+    <path stroke="url(#twoGroundFine)" stroke-width="2.78" d="M 297.06,411.42 L 286.63,412.83 L 292.51,404.72"/>
+    <path stroke="url(#twoGroundFine)" stroke-width="2.6" d="M 278.59,420.31 L 268.56,418.85 L 276.17,412.9"/>
+  </g>
+</svg>
