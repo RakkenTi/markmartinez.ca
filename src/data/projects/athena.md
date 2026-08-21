@@ -1,6 +1,6 @@
 ---
 title: Athena
-summary: An app that acts as your second brain, built to store, organize, and sort all kinds of information, whether personal notes, tasks, projects, anything.
+summary: Store any information of all kinds; tasks, memories, notes, projects, and more in a unified and organized interface.
 year: '2026-Present'
 platform: Self-hosted, PWA and desktop client
 language: Go, TypeScript
