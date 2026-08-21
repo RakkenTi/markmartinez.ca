@@ -2,11 +2,101 @@
 title: Godot Swarm
 summary: A C++ GDExtension that provides an all-in-one solution for handling thousands of physics simulated, animated, and pathfinding entities in Godot.
 year: '2026-Present'
-platform: Godot, godot-cpp
+platform: Godot, GDExtension, godot-cpp
 language: C++
-role: Sole Developer
 status: in progress
+layout: engine
+highlights:
+  - value: '50,000'
+    label: Active Entities
+  - value: 87 FPS
+    label: sustained FPS
+  - value: 11.5 ms
+    label: frame time
 order: 2
+writeup:
+  title: Godot Swarm's Technicals
+  cta: Technical details
+hero:
+  alt: The extreme benchmark running roughly 48,000 entities at once.
+  video: /media/godot-swarm-benchmark.mp4
+  poster: /media/godot-swarm-poster.jpg
+  note: All entities in the scene are animated.The lag and blurriness is an artifact of the video not the scene.
+  frames:
+    - /media/godot-swarm-card.gif
+shots:
+  - src: /media/godot-swarm-01.gif
+    alt: A tight cluster of flyer entities swarming a target indoor.
+    caption: A tight cluster of flyer entities swarming a target indoor.
+  - src: /media/godot-swarm-02.gif
+    alt: ~50,000 entities pathfinding through a maze to reach the blue target.
+    caption: ~50,000 entities pathfinding through a maze to reach the blue target.
+  - src: /media/godot-swarm-03.gif
+    alt: A swarm of multiple types of entities navigating through open terrain to reach a point.
+    caption: A swarm of multiple types of entities navigating through open terrain to reach a point.
+  - src: /media/godot-swarm-04.gif
+    alt: Another swarm of ground and flying entities swarming a target.
+    caption: Another swarm of ground and flying entities swarming a target.
+metrics:
+  heading: Metrics
+  note: Production games will only ever reach the Light profile in an actual scenario, and even then 5,000 entiites should be a super rare occurence. These benchmarks go up to 50,000 entities for the sake of stress testing and profiling.
+  columns:
+    - Entities
+    - Avg FPS
+    - Frame time
+    - 1% low
+    - Max time
+    - Memory
+  machines:
+    - name: Desktop
+      score: '20,777'
+      system:
+        - label: OS
+          value: Windows
+        - label: CPU
+          value: Ryzen 7 5800X, 16 threads
+        - label: GPU
+          value: Radeon RX 6900 XT
+        - label: RAM
+          value: 64 GB
+      rows:
+        - label: Base
+          values: ['500', '1,133.55', 0.882 ms, 3.333 ms, 141.869 ms, 984.4 MB]
+        - label: Light
+          values: ['4,991', '591.45', 1.691 ms, 5.430 ms, 18.901 ms, 987.5 MB]
+        - label: Normal
+          values: ['9,941', '356.63', 2.804 ms, 8.670 ms, 21.371 ms, 989.2 MB]
+        - label: Heavy
+          values: ['22,168', '176.98', 5.650 ms, 16.021 ms, 35.860 ms, 991.5 MB]
+        - label: Extreme
+          tag: shown above
+          values: ['48,519', '62.01', 16.127 ms, 62.093 ms, 148.864 ms, 999.1 MB]
+    - name: Laptop
+      score: '6,788'
+      system:
+        - label: OS
+          value: Linux
+        - label: CPU
+          value: Ryzen 7 PRO 7840U, 16 threads
+        - label: GPU
+          value: Radeon 780M
+        - label: RAM
+          value: 30 GB
+      rows:
+        - label: Base
+          values: ['500', '323.10', 13.696 ms, 112.282 ms, 112.282 ms, 999.0 MB]
+        - label: Light
+          values: ['4,998', '146.16', 13.267 ms, 41.008 ms, 46.790 ms, '1,001.0 MB']
+        - label: Normal
+          values: ['10,000', '90.73', 19.057 ms, 47.318 ms, 48.897 ms, '1,001.5 MB']
+        - label: Heavy
+          values: ['22,497', '46.43', 32.303 ms, 59.896 ms, 65.837 ms, '1,004.1 MB']
+        - label: Extreme
+          values: ['49,994', '16.38', 94.177 ms, 181.847 ms, 181.847 ms, '1,012.1 MB']
+sections:
+  - shots
+  - metrics
+  - writeup
 ---
 
 ## Background

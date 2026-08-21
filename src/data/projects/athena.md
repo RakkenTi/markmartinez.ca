@@ -4,27 +4,29 @@ summary: An app that acts as your second brain, built to store, organize, and so
 year: '2026-Present'
 platform: Self-hosted, PWA and desktop client
 language: Go, TypeScript
-role: Sole Developer
+layout: app
 status: live
 order: 3
+hero:
+  alt: A project board in Athena, with its document, signals, and roadmap.
+  frames:
+    - /media/athena-card.gif
 source: https://github.com/athenaeum-app/athena
+writeup:
+  title: Designing Athena 
 shots:
   - src: /media/athena-chat.gif
     alt: Sending a message in the library-wide chat log.
     caption: A preview of sending a message in the chat.
-    size: half
   - src: /media/athena-projects.gif
     alt: Opening a project and checking off a milestone card.
     caption: A preview of opening a project and checking off a card.
-    size: half
   - src: /media/athena-todos.gif
     alt: Checking off tasks in a list, then switching to the agenda view.
     caption: A preview of checking off tasks and switching to the agenda.
-    size: half
   - src: /media/athena-moments.gif
     alt: Writing a moment, adding a tag, and posting it to the feed.
     caption: A preview of writing and posting a moment.
-    size: half
 ---
 
 ## Background
