@@ -8,9 +8,11 @@ export interface Fact {
   value: string;
 }
 
+const email = 'dev@markmartinez.ca';
+
 export const site = {
   name: 'Mark Martinez',
-  email: 'dev@markmartinez.ca',
+  email,
 
   description:
     'Building games, software, and various hobby projects.',
@@ -42,6 +44,7 @@ export const site = {
 
   nav: [
     { label: 'Work', href: '/#work' },
-    { label: 'Contact', href: '/#contact' },
+    { label: 'Write-ups', href: '/#writeups' },
+    { label: 'Contact', href: `mailto:${email}` },
   ] satisfies Link[],
 };

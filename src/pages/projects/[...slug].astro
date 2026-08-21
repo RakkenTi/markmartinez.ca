@@ -1,0 +1,245 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import Gallery from "../../components/Gallery.tsx";
+import ProductHero from "../../components/product/ProductHero.astro";
+import MoreProjects from "../../components/product/MoreProjects.astro";
+import Funnel from "../../components/product/Funnel.astro";
+import Metrics from "../../components/product/Metrics.astro";
+import WriteupCta from "../../components/product/WriteupCta.astro";
+
+export async function getStaticPaths() {
+    const projects = await getCollection("projects");
+    const ordered = projects.sort((a, b) => a.data.order - b.data.order);
+    return ordered.map((entry) => ({
+        params: { slug: entry.id },
+        props: {
+            entry,
+            others: ordered.filter((other) => other.id !== entry.id),
+        },
+    }));
+}
+
+const { entry, others } = Astro.props;
+const { hero, highlights, layout, funnel, sections, metrics, gallery } =
+    entry.data;
+
+const hasWriteup = (entry.body ?? "").trim().length > 0;
+const writeupHref = hasWriteup ? `/writeups/${entry.id}/` : undefined;
+const writeupLabel = entry.data.writeup?.cta ?? "Read more";
+const writeupInFlow = sections.includes("writeup");
+
+const inHero = new Set([hero.poster, ...hero.frames].filter(Boolean));
+const shots = entry.data.shots.filter((shot) => !inHero.has(shot.src));
+
+const split = (value: string) =>
+    value
+        .split(",")
+        .map((part) => part.trim())
+        .filter(Boolean);
+
+const tags = [...split(entry.data.language), ...split(entry.data.platform)];
+
+const links = [
+    entry.data.play && ["Play", entry.data.play],
+    entry.data.source && ["Source", entry.data.source],
+].filter(Boolean) as [string, string][];
+
+const more = others.map((other) => ({
+    slug: other.id,
+    title: other.data.title,
+    summary: other.data.summary,
+    media: other.data.hero.frames[0],
+    meta: `${other.data.year} / ${split(other.data.language)[0]}`,
+}));
+
+const shotsHeading =
+    layout === "engine"
+        ? "Benchmark"
+        : layout === "game"
+          ? "In game"
+          : "Inside the app";
+---
+
+<Base
+    title={`${entry.data.title} - Mark Martinez`}
+    description={entry.data.summary}
+>
+    <article class:list={["product", `product--${layout}`]}>
+        <p class="back back--top">
+            <a href="/#work">
+                <svg
+                    class="back__arrow"
+                    viewBox="0 0 16 16"
+                    width="16"
+                    height="16"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.75"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                >
+                    <path d="M13 8H4M7.5 4.5 4 8l3.5 3.5" />
+                </svg>
+                All work
+            </a>
+        </p>
+
+        <ProductHero
+            title={entry.data.title}
+            summary={entry.data.summary}
+            status={entry.data.status}
+            meta={[entry.data.year, entry.data.role].filter(Boolean) as string[]}
+            tags={tags}
+            links={links}
+            writeup={writeupInFlow ? undefined : writeupHref}
+            writeupLabel={writeupLabel}
+            layout={layout}
+            highlights={highlights}
+            hero={hero}
+        />
+
+        {
+            sections.map((section) => (
+                <Fragment>
+                    {section === "shots" && shots.length > 0 && (
+                        <section
+                            class="shots"
+                            aria-labelledby="shots-heading"
+                            data-reveal
+                        >
+                            <h2 id="shots-heading" class="shots__heading">
+                                {shotsHeading}
+                            </h2>
+                            <Gallery
+                                client:visible
+                                shots={shots}
+                                variant={layout}
+                                display={gallery}
+                            />
+                        </section>
+                    )}
+                    {section === "funnel" && funnel && (
+                        <Funnel
+                            heading={funnel.heading}
+                            note={funnel.note}
+                            steps={funnel.steps}
+                        />
+                    )}
+                    {section === "metrics" && metrics && (
+                        <Metrics
+                            heading={metrics.heading}
+                            note={metrics.note}
+                            fpsFloor={metrics.fpsFloor}
+                            columns={metrics.columns}
+                            machines={metrics.machines}
+                        />
+                    )}
+                    {section === "writeup" && writeupHref && (
+                        <WriteupCta href={writeupHref} label={writeupLabel} />
+                    )}
+                </Fragment>
+            ))
+        }
+
+        <MoreProjects items={more} />
+    </article>
+</Base>
+
+<script>
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    if ("IntersectionObserver" in window) {
+        document.documentElement.classList.add("reveal-ready");
+
+        const reveal = new IntersectionObserver(
+            (entries) => {
+                for (const entry of entries) {
+                    if (!entry.isIntersecting) continue;
+                    entry.target.classList.add("is-in");
+                    reveal.unobserve(entry.target);
+                }
+            },
+            { rootMargin: "0px 0px -8% 0px" },
+        );
+
+        document.querySelectorAll<HTMLElement>("[data-reveal]").forEach((el, index) => {
+            el.style.setProperty("--reveal-delay", `${index * 0.05}s`);
+            reveal.observe(el);
+        });
+    }
+
+    interface Counter {
+        prefix: string;
+        suffix: string;
+        value: number;
+        decimals: number;
+        grouped: boolean;
+    }
+
+    const parse = (raw: string): Counter | null => {
+        const match = raw.match(/^(\D*?)([\d,]+(?:\.\d+)?)(.*)$/);
+        if (!match) return null;
+
+        const [, prefix, digits, suffix] = match;
+        if (/[a-z]/i.test(prefix)) return null;
+
+        const plain = digits.replace(/,/g, "");
+        const value = Number.parseFloat(plain);
+        if (!Number.isFinite(value)) return null;
+
+        return {
+            prefix,
+            suffix,
+            value,
+            decimals: plain.includes(".") ? plain.split(".")[1].length : 0,
+            grouped: digits.includes(","),
+        };
+    };
+
+    const format = (counter: Counter, current: number) => {
+        const fixed = current.toFixed(counter.decimals);
+        const body = counter.grouped
+            ? Number(fixed).toLocaleString("en-US", {
+                  minimumFractionDigits: counter.decimals,
+                  maximumFractionDigits: counter.decimals,
+              })
+            : fixed;
+        return `${counter.prefix}${body}${counter.suffix}`;
+    };
+
+    const countUp = (el: HTMLElement, counter: Counter) => {
+        const duration = 1100;
+        let start: number | null = null;
+
+        const tick = (now: number) => {
+            if (start === null) start = now;
+            const progress = Math.min((now - start) / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            el.textContent = format(counter, counter.value * eased);
+            if (progress < 1) requestAnimationFrame(tick);
+        };
+
+        requestAnimationFrame(tick);
+    };
+
+    if (!reduced.matches && "IntersectionObserver" in window) {
+        const counters = new IntersectionObserver(
+            (entries) => {
+                for (const entry of entries) {
+                    if (!entry.isIntersecting) continue;
+                    const el = entry.target as HTMLElement;
+                    counters.unobserve(el);
+                    const counter = parse(el.dataset.count ?? "");
+                    if (counter) countUp(el, counter);
+                }
+            },
+            { threshold: 0.6 },
+        );
+
+        document
+            .querySelectorAll<HTMLElement>("[data-count]")
+            .forEach((el) => counters.observe(el));
+    }
+</script>

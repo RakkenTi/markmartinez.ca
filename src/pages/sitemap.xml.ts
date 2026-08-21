@@ -2,8 +2,14 @@ import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 
 export const GET: APIRoute = async ({ site }) => {
-  const work = await getCollection('work');
-  const paths = ['/', ...work.map((entry) => `/work/${entry.id}/`)];
+  const projects = await getCollection('projects');
+  const paths = [
+    '/',
+    ...projects.map((entry) => `/projects/${entry.id}/`),
+    ...projects
+      .filter((entry) => (entry.body ?? '').trim().length > 0)
+      .map((entry) => `/writeups/${entry.id}/`),
+  ];
 
   const urls = paths
     .map((path) => `  <url><loc>${new URL(path, site)}</loc></url>`)

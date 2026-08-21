@@ -1,0 +1,86 @@
+---
+import { getCollection, render } from "astro:content";
+import Base from "../../layouts/Base.astro";
+
+export async function getStaticPaths() {
+    const projects = await getCollection("projects");
+    return projects
+        .filter((entry) => (entry.body ?? "").trim().length > 0)
+        .map((entry) => ({
+            params: { slug: entry.id },
+            props: { entry },
+        }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const writeupTitle = entry.data.writeup?.title ?? entry.data.title;
+const documentTitle =
+    entry.data.writeup?.title ?? `${entry.data.title} write-up`;
+
+const specs = [
+    ["Year", entry.data.year],
+    ["Platform", entry.data.platform],
+    ["Language", entry.data.language],
+    entry.data.role && ["Role", entry.data.role],
+    ["Status", entry.data.status],
+].filter(Boolean) as [string, string][];
+---
+
+<Base
+    title={`${documentTitle} - Mark Martinez`}
+    description={entry.data.summary}
+>
+    <article>
+        <p class="back back--top">
+            <a href={`/projects/${entry.id}/`}>
+                <svg
+                    class="back__arrow"
+                    viewBox="0 0 16 16"
+                    width="16"
+                    height="16"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.75"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                >
+                    <path d="M13 8H4M7.5 4.5 4 8l3.5 3.5" />
+                </svg>
+                {entry.data.title}
+            </a>
+        </p>
+
+        <header class="head">
+            <p class="eyebrow">Write-up</p>
+            <h1 class="head__title">{writeupTitle}</h1>
+            <p class="head__summary">{entry.data.summary}</p>
+        </header>
+
+        <div class="split">
+            <div class="body">
+                <Content />
+            </div>
+            <aside class="rail">
+                <dl class="spec">
+                    {
+                        specs.map(([label, value]) => (
+                            <div class="spec__cell">
+                                <dt>{label}</dt>
+                                <dd>{value}</dd>
+                            </div>
+                        ))
+                    }
+                </dl>
+                <p class="rail__links">
+                    <a href={`/projects/${entry.id}/`}>Project page</a>
+                </p>
+            </aside>
+        </div>
+
+        <p class="back">
+            <a href="/#writeups">All write-ups</a>
+        </p>
+    </article>
+</Base>

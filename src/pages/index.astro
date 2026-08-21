@@ -3,9 +3,11 @@ import { getCollection } from "astro:content";
 import Base from "../layouts/Base.astro";
 import { site } from "../site";
 
-const work = (await getCollection("work")).sort(
+const projects = (await getCollection("projects")).sort(
     (a, b) => a.data.order - b.data.order,
 );
+
+const work = projects.filter((entry) => (entry.body ?? "").trim().length > 0);
 ---
 
 <Base title={site.name} description={site.description}>
@@ -27,7 +29,58 @@ const work = (await getCollection("work")).sort(
     </section>
 
     <section id="work" class="section" aria-labelledby="work-heading">
-        <h2 id="work-heading" class="eyebrow">Selected work</h2>
+        <h2 id="work-heading" class="eyebrow">Work</h2>
+        <ul class="showcase">
+            {
+                projects.map((project) => (
+                    <li class="showcase__item">
+                        <a class="card" href={`/projects/${project.id}/`}>
+                            <span
+                                class={`card__media card__media--${project.data.hero.frames.length}`}
+                            >
+                                {project.data.hero.frames.map((frame, frameIndex) => (
+                                    <img
+                                        class:list={[
+                                            "card__frame",
+                                            project.data.hero.fit === "contain" &&
+                                                "card__frame--contain",
+                                        ]}
+                                        style={`--i:${frameIndex}`}
+                                        src={frame}
+                                        alt=""
+                                        loading="lazy"
+                                        decoding="async"
+                                    />
+                                ))}
+                            </span>
+                            <span class="card__body">
+                                <span class="card__title">
+                                    {project.data.title}
+                                </span>
+                                <span class="card__meta">
+                                    {project.data.year} / {project.data.status}
+                                </span>
+                                <span class="card__stack">
+                                    {project.data.language} / {project.data.platform}
+                                </span>
+                                {project.data.stat && (
+                                    <span class="card__stat">
+                                        {project.data.stat}
+                                    </span>
+                                )}
+                            </span>
+                        </a>
+                    </li>
+                ))
+            }
+        </ul>
+    </section>
+    <section
+        id="writeups"
+        class="section"
+        aria-labelledby="writeups-heading"
+    >
+        <h2 id="writeups-heading" class="eyebrow">Write-ups</h2>
         <ol class="manifest">
             {
                 work.map((entry) => (
@@ -39,8 +92,9 @@ const work = (await getCollection("work")).sort(
                         </p>
                         <div class="row__main">
                             <h3 class="row__title">
-                                <a href={`/work/${entry.id}/`}>
-                                    {entry.data.title}
+                                <a href={`/writeups/${entry.id}/`}>
+                                    {entry.data.writeup?.title ??
+                                        entry.data.title}
                                 </a>
                             </h3>
                             <p class="row__summary">{entry.data.summary}</p>
@@ -49,8 +103,8 @@ const work = (await getCollection("work")).sort(
                             <p class="row__status">{entry.data.status}</p>
                             <a
                                 class="row__more"
-                                href={`/work/${entry.id}/`}
-                                aria-label={`Read more about ${entry.data.title}`}
+                                href={`/writeups/${entry.id}/`}
+                                aria-label={`Read more about ${entry.data.writeup?.title ?? entry.data.title}`}
                             >
                                 Read more
                                 <svg
@@ -75,6 +129,7 @@ const work = (await getCollection("work")).sort(
         </ol>
     </section>
 </Base>
+
 
 <style>
     .lede {
@@ -244,11 +299,154 @@ const work = (await getCollection("work")).sort(
         }
     }
 
-    .contact__line {
-        margin: 1rem 0 0;
+    .showcase {
+        display: grid;
+        grid-auto-flow: column;
+        grid-auto-columns: min(78vw, 21rem);
+        gap: 1.25rem;
+        margin: 1.5rem 0 0;
+        padding: 0 0 1.25rem;
+        list-style: none;
+        overflow-x: auto;
+        overscroll-behavior-x: contain;
+        scroll-snap-type: x proximity;
+        scroll-padding-left: var(--gutter);
+    }
+
+    .showcase__item {
+        scroll-snap-align: start;
+    }
+
+    .card {
+        display: grid;
+        grid-template-rows: auto 1fr;
+        height: 100%;
+        border: 1px solid var(--rule);
+        text-decoration: none;
+        color: inherit;
+        transition: border-color 0.2s ease;
+    }
+
+    .card:hover,
+    .card:focus-visible {
+        border-color: var(--accent);
+    }
+
+    .card__media {
+        display: grid;
+        aspect-ratio: 16 / 10;
+        background: var(--raise);
+        border-bottom: 1px solid var(--rule);
+        overflow: hidden;
+    }
+
+    .card__frame {
+        grid-area: 1 / 1;
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0;
+        animation-delay: calc(var(--i) * 4.5s);
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+    }
+
+    .card__frame:first-child {
+        opacity: 1;
+    }
+
+    .card__frame--contain {
+        object-fit: contain;
+        padding: 1.75rem;
+    }
+
+    .card__media--2 .card__frame {
+        animation-name: cardFrame2;
+        animation-duration: 9s;
+    }
+
+    .card__media--3 .card__frame {
+        animation-name: cardFrame3;
+        animation-duration: 13.5s;
+    }
+
+    .card__media--4 .card__frame {
+        animation-name: cardFrame4;
+        animation-duration: 18s;
+    }
+
+    @keyframes cardFrame2 {
+        0% { opacity: 0; }
+        5.56%, 50% { opacity: 1; }
+        55.56%, 100% { opacity: 0; }
+    }
+
+    @keyframes cardFrame3 {
+        0% { opacity: 0; }
+        3.7%, 33.33% { opacity: 1; }
+        37.04%, 100% { opacity: 0; }
+    }
+
+    @keyframes cardFrame4 {
+        0% { opacity: 0; }
+        2.78%, 25% { opacity: 1; }
+        27.78%, 100% { opacity: 0; }
+    }
+
+    .card__body {
+        display: grid;
+        gap: 0.35rem;
+        align-content: start;
+        padding: 0.9rem 1rem 1.1rem;
+    }
+
+    .card__title {
         font-family: var(--display);
-        font-size: clamp(1.75rem, 4vw, 2.75rem);
-        font-weight: 400;
+        font-size: 1.25rem;
+        line-height: 1.2;
+    }
+
+    .card:hover .card__title,
+    .card:focus-visible .card__title {
+        color: var(--accent);
+    }
+
+    .card__stack {
+        font-family: var(--mono);
+        font-size: 0.72rem;
+        line-height: 1.45;
+        color: var(--muted);
+    }
+
+    .card__stat {
+        font-family: var(--mono);
+        font-size: 0.72rem;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--accent);
+    }
+
+    .card__meta {
+        font-family: var(--mono);
+        font-size: 0.72rem;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--muted);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .card {
+            transition: none;
+        }
+
+        .card__frame {
+            animation: none;
+        }
+
+        .card__frame:not(:first-child) {
+            display: none;
+        }
     }
 
     @media (min-width: 62rem) {
