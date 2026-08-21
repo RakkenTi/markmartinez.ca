@@ -1,0 +1,428 @@
+---
+import { getCollection, render } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import Gallery from "../../components/Gallery.tsx";
+
+export async function getStaticPaths() {
+    const work = await getCollection("work");
+    return work.map((entry) => ({
+        params: { slug: entry.id },
+        props: { entry },
+    }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+
+const specs = [
+    ["Year", entry.data.year],
+    ["Platform", entry.data.platform],
+    ["Language", entry.data.language],
+    ["Role", entry.data.role],
+    ["Status", entry.data.status],
+];
+
+const links = [
+    entry.data.play && ["Play", entry.data.play],
+    entry.data.source && ["Source", entry.data.source],
+].filter(Boolean) as [string, string][];
+---
+
+<Base
+    title={`${entry.data.title} - Mark Martinez`}
+    description={entry.data.summary}
+>
+    <article>
+        <header class="head">
+            <p class="eyebrow">Case study</p>
+            <h1 class="head__title">{entry.data.title}</h1>
+            <p class="head__summary">{entry.data.summary}</p>
+        </header>
+
+        {
+            entry.data.shots.length > 0 && (
+                <section class="shots" aria-label="Screenshots">
+                    <Gallery client:visible shots={entry.data.shots} />
+                </section>
+            )
+        }
+
+        <div class="split">
+            <div class="body">
+                <Content />
+            </div>
+            <aside class="rail">
+                <dl class="spec">
+                    {
+                        specs.map(([label, value]) => (
+                            <div class="spec__cell">
+                                <dt>{label}</dt>
+                                <dd>{value}</dd>
+                            </div>
+                        ))
+                    }
+                </dl>
+                {
+                    links.length > 0 && (
+                        <p class="rail__links">
+                            {links.map(([label, href]) => (
+                                <a href={href} target="_blank" rel="noopener noreferrer">
+                                    {label}
+                                </a>
+                            ))}
+                        </p>
+                    )
+                }
+            </aside>
+        </div>
+
+        <p class="back">
+            <a href="/#work">All work</a>
+        </p>
+    </article>
+</Base>
+
+<style is:global>
+    .head {
+        padding: clamp(2.5rem, 8vh, 4.5rem) 0 0;
+    }
+
+    .head__title {
+        margin: 0.75rem 0 0;
+        font-family: var(--display);
+        font-size: clamp(2.25rem, 6vw, 3.5rem);
+        font-weight: 400;
+        line-height: 1.1;
+        letter-spacing: -0.02em;
+        text-wrap: balance;
+    }
+
+    .head__summary {
+        max-width: 52rem;
+        margin: 1.25rem 0 0;
+        font-size: 1.3rem;
+        line-height: 1.45;
+        color: var(--muted);
+        text-wrap: pretty;
+    }
+
+    .rail {
+        order: -1;
+    }
+
+    .spec {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
+        gap: 1px;
+        margin: 0;
+        padding: 1px;
+        background: var(--rule);
+        border: 1px solid var(--rule);
+    }
+
+    .spec__cell {
+        padding: 0.85rem 1rem;
+        background: var(--paper);
+    }
+
+    .rail__links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.25rem;
+        margin: 1.25rem 0 0;
+        font-family: var(--mono);
+        font-size: 0.8125rem;
+    }
+
+    @media (min-width: 62rem) {
+        .rail {
+            order: 0;
+            position: sticky;
+            top: 2rem;
+            align-self: start;
+        }
+
+        .spec {
+            grid-template-columns: minmax(0, 1fr);
+        }
+    }
+
+    .spec dt {
+        font-family: var(--mono);
+        font-size: 0.7rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--muted);
+    }
+
+    .spec dd {
+        margin: 0.3rem 0 0;
+        font-family: var(--mono);
+        font-size: 0.85rem;
+    }
+
+    .shots {
+        margin: 3rem 0;
+    }
+
+    .body {
+        margin-top: 0;
+        max-width: var(--measure);
+    }
+
+    .body > :first-child {
+        margin-top: 0;
+    }
+
+    .body h2 {
+        margin: 3rem 0 0.75rem;
+        font-family: var(--display);
+        font-size: 1.75rem;
+        font-weight: 420;
+        line-height: 1.2;
+        letter-spacing: -0.01em;
+        text-wrap: balance;
+    }
+
+    @media (min-width: 62rem) {
+        .body {
+            display: grid;
+            grid-template-columns: 12rem minmax(0, var(--measure));
+            column-gap: 3rem;
+            max-width: none;
+        }
+
+        .body > * {
+            grid-column: 2;
+        }
+
+        .body > h2 {
+            grid-column: 1;
+            margin-bottom: 0;
+            font-size: 1.4rem;
+            text-align: right;
+            color: var(--muted);
+        }
+
+        .body > h2 + p {
+            margin-top: 3rem;
+        }
+
+        .body > h2:first-child {
+            margin: 3rem 0 0;
+            font-size: 1.6rem;
+            font-weight: 600;
+        }
+    }
+
+    .body h3 {
+        margin: 2rem 0 0.5rem;
+        font-family: var(--body);
+        font-size: 1.0625rem;
+        font-weight: 650;
+    }
+
+    .body p {
+        margin: 1.1rem 0;
+    }
+
+    .body blockquote {
+        margin: 2rem 0;
+        padding-left: 1.25rem;
+        border-left: 2px solid var(--accent);
+        font-family: var(--display);
+        font-size: 1.3rem;
+        font-style: italic;
+        line-height: 1.4;
+    }
+
+    .body code {
+        font-family: var(--mono);
+        font-size: 0.9em;
+        background: var(--raise);
+        padding: 0.1em 0.3em;
+    }
+
+    .body pre {
+        padding: 1rem;
+        overflow-x: auto;
+        background: var(--raise);
+        border: 1px solid var(--rule);
+    }
+
+    .body pre code {
+        background: none;
+        padding: 0;
+    }
+
+    .body table {
+        display: block;
+        width: 100%;
+        margin: 1.5rem 0;
+        overflow-x: auto;
+        border-collapse: collapse;
+        font-family: var(--mono);
+        font-size: 0.7rem;
+        line-height: 1.5;
+        white-space: nowrap;
+    }
+
+    .body th,
+    .body td {
+        padding: 0.4rem 0.75rem;
+        border-bottom: 1px solid var(--rule);
+        text-align: right;
+    }
+
+    .body th:first-child,
+    .body td:first-child {
+        text-align: left;
+    }
+
+    .body thead th {
+        font-weight: 400;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--muted);
+        border-bottom-color: currentColor;
+    }
+
+    .body tbody tr:last-child {
+        background: var(--raise);
+    }
+
+    .body .figure {
+        margin: 2rem 0;
+    }
+
+    .body .figure img {
+        display: block;
+        max-width: 100%;
+        border: 1px solid var(--rule);
+        background: var(--raise);
+    }
+
+    .body .figure figcaption {
+        margin: 0.5rem 0 0;
+        font-family: var(--mono);
+        font-size: 0.75rem;
+        color: var(--muted);
+    }
+
+    .back {
+        margin: 5rem 0 0;
+        font-family: var(--mono);
+        font-size: 0.8125rem;
+    }
+
+    .gallery {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+        gap: 1.25rem;
+        margin: 2rem 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .gallery__thumb {
+        display: block;
+        width: 100%;
+        padding: 0;
+        border: 1px solid var(--rule);
+        background: var(--raise);
+        cursor: zoom-in;
+    }
+
+    .gallery__thumb img {
+        display: block;
+        width: 100%;
+    }
+
+    .gallery__item--sm {
+        width: 8rem;
+        max-width: 8rem;
+        justify-self: start;
+    }
+
+    .gallery__item--sm .gallery__thumb {
+        width: 8rem;
+    }
+
+    .gallery__item--lg {
+        width: min(100%, 36rem);
+        max-width: 36rem;
+    }
+
+    .gallery__item--full {
+        grid-column: 1 / -1;
+        width: 100%;
+        max-width: none;
+    }
+
+    .gallery__item--full .gallery__thumb img {
+        width: 100%;
+    }
+
+    .gallery--pairs {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .gallery__item--half .gallery__thumb img {
+        width: 100%;
+    }
+
+    @media (min-width: 48rem) {
+        .gallery--pairs {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+    }
+
+    .gallery__caption {
+        margin: 0.5rem 0 0;
+        font-family: var(--mono);
+        font-size: 0.75rem;
+        color: var(--muted);
+    }
+
+    .lightbox {
+        position: fixed;
+        inset: 0;
+        z-index: 20;
+        display: grid;
+        place-content: center;
+        gap: 1rem;
+        padding: var(--gutter);
+        background: var(--paper);
+    }
+
+    .lightbox img {
+        max-height: 70vh;
+        object-fit: contain;
+    }
+
+    .lightbox__caption,
+    .lightbox__nav,
+    .lightbox__close {
+        font-family: var(--mono);
+        font-size: 0.8125rem;
+        color: var(--muted);
+    }
+
+    .lightbox__nav {
+        display: flex;
+        gap: 1.5rem;
+    }
+
+    .lightbox button {
+        padding: 0.4rem 0.8rem;
+        background: none;
+        border: 1px solid var(--rule);
+        color: inherit;
+        font: inherit;
+        cursor: pointer;
+    }
+
+    .lightbox__close {
+        justify-self: end;
+    }
+</style>

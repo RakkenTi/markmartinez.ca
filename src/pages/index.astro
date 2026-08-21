@@ -1,0 +1,276 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../layouts/Base.astro";
+import { site } from "../site";
+
+const work = (await getCollection("work")).sort(
+    (a, b) => a.data.order - b.data.order,
+);
+---
+
+<Base title={site.name} description={site.description}>
+    <section class="lede">
+        <h1 class="lede__text">{site.hero}</h1>
+    </section>
+
+    <section aria-label="At a glance">
+        <dl class="facts">
+            {
+                site.facts.map((fact) => (
+                    <div class="facts__cell">
+                        <dt>{fact.label}</dt>
+                        <dd>{fact.value}</dd>
+                    </div>
+                ))
+            }
+        </dl>
+    </section>
+
+    <section id="work" class="section" aria-labelledby="work-heading">
+        <h2 id="work-heading" class="eyebrow">Selected work</h2>
+        <ol class="manifest">
+            {
+                work.map((entry) => (
+                    <li class="row">
+                        <p class="row__meta">
+                            <span>{entry.data.year}</span>
+                            <span>{entry.data.platform}</span>
+                            <span>{entry.data.language}</span>
+                        </p>
+                        <div class="row__main">
+                            <h3 class="row__title">
+                                <a href={`/work/${entry.id}/`}>
+                                    {entry.data.title}
+                                </a>
+                            </h3>
+                            <p class="row__summary">{entry.data.summary}</p>
+                        </div>
+                        <div class="row__aside">
+                            <p class="row__status">{entry.data.status}</p>
+                            <a
+                                class="row__more"
+                                href={`/work/${entry.id}/`}
+                                aria-label={`Read more about ${entry.data.title}`}
+                            >
+                                Read more
+                                <svg
+                                    class="row__arrow"
+                                    viewBox="0 0 16 16"
+                                    width="16"
+                                    height="16"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="1.75"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    aria-hidden="true"
+                                >
+                                    <path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" />
+                                </svg>
+                            </a>
+                        </div>
+                    </li>
+                ))
+            }
+        </ol>
+    </section>
+</Base>
+
+<style>
+    .lede {
+        padding: clamp(3rem, 11vh, 6rem) 0 clamp(2.5rem, 6vh, 4rem);
+    }
+
+    .lede__text {
+        max-width: 18ch;
+        margin: 0;
+        font-family: var(--display);
+        font-size: clamp(2.35rem, 5.5vw, 4.25rem);
+        font-weight: 500;
+        line-height: 1.08;
+        letter-spacing: -0.02em;
+        text-wrap: balance;
+    }
+
+    .facts {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        margin: 0;
+        border-top: 2px solid var(--ink);
+        border-bottom: 1px solid var(--rule);
+    }
+
+    .facts__cell {
+        padding: 1rem 1.25rem 1.1rem 0;
+        border-bottom: 1px solid var(--rule);
+    }
+
+    .facts dt {
+        font-family: var(--mono);
+        font-size: 0.7rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--muted);
+    }
+
+    .facts dd {
+        margin: 0.35rem 0 0;
+        font-size: 0.95rem;
+        line-height: 1.5;
+    }
+
+    @media (min-width: 40rem) {
+        .facts {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            column-gap: 2rem;
+        }
+    }
+
+    @media (min-width: 68rem) {
+        .facts {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            column-gap: 2.5rem;
+        }
+    }
+
+    .section {
+        margin-top: clamp(4rem, 11vh, 7rem);
+    }
+
+    .manifest {
+        margin: 1.25rem 0 0;
+        padding: 0;
+        list-style: none;
+        border-top: 1px solid var(--rule);
+    }
+
+    .row {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 0.5rem;
+        padding: 1.75rem 0;
+        border-bottom: 1px solid var(--rule);
+    }
+
+    .row__meta,
+    .row__status {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.3rem 1rem;
+        margin: 0;
+        font-family: var(--mono);
+        font-size: 0.75rem;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--muted);
+    }
+
+    .row__title {
+        margin: 0;
+        font-family: var(--display);
+        font-size: clamp(1.5rem, 3vw, 2rem);
+        font-weight: 400;
+        line-height: 1.12;
+        letter-spacing: -0.01em;
+    }
+
+    .row__title a {
+        text-decoration: none;
+    }
+
+    .row:hover,
+    .row:focus-within {
+        border-color: var(--accent);
+    }
+
+    .row__title a:hover {
+        color: var(--accent);
+    }
+
+    .row__summary {
+        margin: 0.6rem 0 0;
+    }
+
+    .row__aside {
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        gap: 0.75rem;
+    }
+
+    .row__more {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.35rem 0.7rem;
+        border: 1px solid var(--rule);
+        font-size: 0.8rem;
+        font-weight: 600;
+        line-height: 1.2;
+        color: var(--muted);
+        text-decoration: none;
+        white-space: nowrap;
+        transition:
+            color 0.2s ease,
+            border-color 0.2s ease;
+    }
+
+    .row__more:hover,
+    .row__more:focus-visible {
+        color: var(--accent);
+        border-color: var(--accent);
+    }
+
+    .row__arrow {
+        width: 0.85rem;
+        height: 0.85rem;
+        transition: transform 0.2s ease;
+    }
+
+    .row__more:hover .row__arrow,
+    .row__more:focus-visible .row__arrow {
+        transform: translateX(0.15rem);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .row__more,
+        .row__arrow {
+            transition: none;
+        }
+
+        .row__more:hover .row__arrow,
+        .row__more:focus-visible .row__arrow {
+            transform: none;
+        }
+    }
+
+    .contact__line {
+        margin: 1rem 0 0;
+        font-family: var(--display);
+        font-size: clamp(1.75rem, 4vw, 2.75rem);
+        font-weight: 400;
+    }
+
+    @media (min-width: 62rem) {
+        .row {
+            grid-template-columns: 13rem minmax(0, 1fr) 8rem;
+            gap: 2.5rem;
+            align-items: start;
+        }
+
+        .row__meta {
+            display: grid;
+            gap: 0.3rem;
+            padding-top: 0.6rem;
+        }
+
+        .row__aside {
+            align-items: end;
+            padding-top: 0.6rem;
+        }
+
+        .row__status {
+            justify-content: end;
+        }
+    }
+</style>
