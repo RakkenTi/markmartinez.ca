@@ -93,6 +93,7 @@ const projects = defineCollection({
       .optional(),
     source: z.url().optional(),
     play: z.url().optional(),
+    playdemo: z.url().optional(),
     shots: z
       .array(
         image.extend({

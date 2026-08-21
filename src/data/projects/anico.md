@@ -14,6 +14,7 @@ hero:
   note: Demo footage of Anico, showcasing the summoning feature.
   frames:
     - /media/anico-card.gif
+playdemo: https://demo.anico.markmartinez.ca/
 shots:
   - src: /media/anico-opening.gif
     alt: A sealed pack being torn open, then cards taken off the top of the stack one swipe at a time.

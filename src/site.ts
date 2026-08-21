@@ -11,11 +11,11 @@ export interface Fact {
 const email = 'dev@markmartinez.ca';
 
 export const site = {
-  name: 'Mark Martinez',
+  name: 'Mark',
   email,
 
   description:
-    'Building games, software, and various hobby projects.',
+    'Working on commercial games, engine tooling, and fun software..',
 
   hero: 'Working on commercial games, engine tooling, and fun software.',
 
