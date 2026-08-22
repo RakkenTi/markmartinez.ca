@@ -26,7 +26,7 @@ export const site = {
     },
     {
       label: 'Languages',
-      value: 'C++, C, Go, Rust, Elixir, Java, Python, TypeScript, Luau, GDScript, Bash',
+      value: 'C++, C, Go, Rust, Java, TypeScript, Python, Lua, Elixir, Haskell, Lisp, GDScript, Bash',
     },
     {
       label: 'Game development',
@@ -40,6 +40,10 @@ export const site = {
       label: 'Tooling',
       value: 'Docker, GitHub Actions, Git, Linux on Fedora and Ubuntu',
     },
+    {
+      label: 'Focus',
+      value: 'OSS & Game Deveopment',
+    }
   ] satisfies Fact[],
 
   nav: [
