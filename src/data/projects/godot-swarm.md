@@ -3,7 +3,7 @@ title: Godot Swarm
 summary: A C++ GDExtension that provides an all-in-one solution for handling thousands of physics simulated, animated, and pathfinding entities in Godot.
 year: '2026-Present'
 platform: Godot, GDExtension, godot-cpp
-language: C++
+language: C++, GDScript
 status: in progress
 layout: engine
 highlights:
