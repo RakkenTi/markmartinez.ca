@@ -15,9 +15,9 @@ export const site = {
   email,
 
   description:
-    'Working on commercial games, engine tooling, and fun software.',
+    'Working on commercial games, engine tooling, and open source software.',
 
-  hero: 'Working on commercial games, engine tooling, and fun software.',
+  hero: 'Working on commercial games, engine tooling, and open source software.',
 
   facts: [
     {
