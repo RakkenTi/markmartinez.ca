@@ -602,6 +602,8 @@ html[data-theme='dark'] .switch__icon--moon {
 .lightbox img {
     max-height: 70vh;
     object-fit: contain;
+    /* Transparent screenshots need a stable backdrop in either theme. */
+    background: #14171a;
 }
 
 .lightbox__caption,
@@ -718,7 +720,8 @@ html[data-theme='dark'] .switch__icon--moon {
     padding: 0;
     overflow: hidden;
     border: 1px solid var(--rule);
-    background: var(--raise);
+    /* Keep transparent dark UI screenshots from inheriting the light theme. */
+    background: #14171a;
     color: inherit;
     cursor: zoom-in;
     transition: border-color 0.25s ease;
