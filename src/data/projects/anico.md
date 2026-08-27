@@ -15,6 +15,7 @@ hero:
   frames:
     - /media/anico-card.gif
 playdemo: https://demo.anico.markmartinez.ca/
+source: https://github.com/RakkenTi/anico
 shots:
   - src: /media/anico-opening.gif
     alt: A sealed pack being torn open, then cards taken off the top of the stack one swipe at a time.

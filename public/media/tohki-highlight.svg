@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 900" role="img" aria-labelledby="title desc">
+  <title id="title">Source text and typed tokens</title>
+  <desc id="desc">The same source line is shown first as plain text, then syntax highlighted with each token's type and byte range labeled below it.</desc>
+  <rect width="1400" height="900" fill="#14171a"/>
+
+  <text x="96" y="92" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="30" fill="#939ba3">SOURCE</text>
+  <text x="96" y="210" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="58" fill="#e4e7ea">let x = 1;</text>
+  <line x1="96" y1="270" x2="1304" y2="270" stroke="#272c31" stroke-width="2"/>
+
+  <text x="96" y="370" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="30" fill="#939ba3">.tokenize(SOURCE)</text>
+  <text x="96" y="500" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="58" fill="#f2a65a">let</text>
+  <text x="378" y="500" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="58" fill="#7aa2f7">x</text>
+  <text x="618" y="500" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="58" fill="#c792ea">=</text>
+  <text x="858" y="500" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="58" fill="#e5c07b">1</text>
+  <text x="1098" y="500" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="58" fill="#e06c75">;</text>
+
+  <line x1="156" y1="532" x2="156" y2="604" stroke="#f2a65a" stroke-width="2"/>
+  <line x1="396" y1="532" x2="396" y2="604" stroke="#7aa2f7" stroke-width="2"/>
+  <line x1="636" y1="532" x2="636" y2="604" stroke="#c792ea" stroke-width="2"/>
+  <line x1="876" y1="532" x2="876" y2="604" stroke="#e5c07b" stroke-width="2"/>
+  <line x1="1116" y1="532" x2="1116" y2="604" stroke="#e06c75" stroke-width="2"/>
+
+  <rect x="72" y="604" width="168" height="116" fill="#20262b" stroke="#272c31"/>
+  <text x="92" y="644" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="18" fill="#f2a65a">keyword</text>
+  <text x="92" y="684" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="22" fill="#939ba3">0..3</text>
+
+  <rect x="312" y="604" width="168" height="116" fill="#20262b" stroke="#272c31"/>
+  <text x="332" y="644" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="18" fill="#7aa2f7">identifier</text>
+  <text x="332" y="684" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="22" fill="#939ba3">4..5</text>
+
+  <rect x="552" y="604" width="168" height="116" fill="#20262b" stroke="#272c31"/>
+  <text x="572" y="644" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="18" fill="#c792ea">operator</text>
+  <text x="572" y="684" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="22" fill="#939ba3">6..7</text>
+
+  <rect x="792" y="604" width="168" height="116" fill="#20262b" stroke="#272c31"/>
+  <text x="812" y="644" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="18" fill="#e5c07b">number</text>
+  <text x="812" y="684" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="22" fill="#939ba3">8..9</text>
+
+  <rect x="1032" y="604" width="168" height="116" fill="#20262b" stroke="#272c31"/>
+  <text x="1052" y="644" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="18" fill="#e06c75">punctuation</text>
+  <text x="1052" y="684" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="22" fill="#939ba3">9..10</text>
+</svg>

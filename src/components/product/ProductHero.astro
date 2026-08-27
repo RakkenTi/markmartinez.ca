@@ -160,11 +160,18 @@ const rotates = !hero.video && frames.length > 1;
                     />
                 ) : rotates ? (
                     <span
-                        class:list={["ph__stack", `ph__stack--${frames.length}`]}
+                        class:list={[
+                            "ph__stack",
+                            `ph__stack--${frames.length}`,
+                        ]}
                     >
                         {frames.map((src, index) => (
                             <img
-                                class="ph__shot"
+                                class:list={[
+                                    "ph__shot",
+                                    hero.fit === "contain" &&
+                                        "ph__shot--contain",
+                                ]}
                                 style={`--i:${index}`}
                                 src={src}
                                 alt={index === 0 ? hero.alt : ""}
@@ -395,6 +402,11 @@ const rotates = !hero.video && frames.length > 1;
         object-fit: cover;
     }
 
+    .ph__stack .ph__shot--contain {
+        object-fit: contain;
+        padding: clamp(1rem, 3vw, 2rem);
+    }
+
     .ph__stats {
         display: grid;
         gap: 1px;
@@ -506,7 +518,8 @@ const rotates = !hero.video && frames.length > 1;
         }
 
         .ph__media {
-            animation: phMedia 0.9s cubic-bezier(0.2, 0.7, 0.3, 1) 0.12s backwards;
+            animation: phMedia 0.9s cubic-bezier(0.2, 0.7, 0.3, 1) 0.12s
+                backwards;
         }
 
         .ph__stats--band {

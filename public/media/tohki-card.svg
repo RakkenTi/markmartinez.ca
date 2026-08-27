@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000">
+  <rect width="1600" height="1000" fill="#14171a"/>
+  <text x="80" y="110" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="36" fill="#939ba3">source code</text>
+  <text x="80" y="180" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="60" fill="#f2a65a">let</text>
+  <text x="224" y="180" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="60" fill="#7aa2f7">x</text>
+  <text x="296" y="180" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="60" fill="#c792ea">=</text>
+  <text x="368" y="180" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="60" fill="#e5c07b">1</text>
+  <text x="404" y="180" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="60" fill="#e06c75">;</text>
+  <text x="476" y="180" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="60" fill="#58c6b8">// hi</text>
+  <rect x="80" y="200" width="108" height="10" rx="4" fill="#f2a65a"/>
+  <rect x="224" y="200" width="36" height="10" rx="4" fill="#7aa2f7"/>
+  <rect x="296" y="200" width="36" height="10" rx="4" fill="#c792ea"/>
+  <rect x="368" y="200" width="36" height="10" rx="4" fill="#e5c07b"/>
+  <rect x="404" y="200" width="36" height="10" rx="4" fill="#e06c75"/>
+  <rect x="476" y="200" width="180" height="10" rx="4" fill="#58c6b8"/>
+  <rect x="80" y="250" width="1440" height="2" fill="#272c31"/>
+  <text x="80" y="320" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="36" fill="#939ba3">token styles</text>
+  <text x="120" y="410" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="36" fill="#575d63">kind</text>
+  <text x="460" y="410" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="36" fill="#575d63">range</text>
+  <text x="720" y="410" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="36" fill="#575d63">text</text>
+  <text x="120" y="490" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="36" fill="#f2a65a">keyword</text>
+  <text x="460" y="490" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="36" fill="#939ba3">0..3</text>
+  <text x="720" y="490" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="36" fill="#f2a65a">let</text>
+  <text x="120" y="570" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="36" fill="#7aa2f7">ident</text>
+  <text x="460" y="570" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="36" fill="#939ba3">4..5</text>
+  <text x="720" y="570" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="36" fill="#7aa2f7">x</text>
+  <text x="120" y="650" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="36" fill="#c792ea">op</text>
+  <text x="460" y="650" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="36" fill="#939ba3">6..7</text>
+  <text x="720" y="650" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="36" fill="#c792ea">=</text>
+  <text x="120" y="730" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="36" fill="#e5c07b">number</text>
+  <text x="460" y="730" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="36" fill="#939ba3">8..9</text>
+  <text x="720" y="730" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="36" fill="#e5c07b">1</text>
+  <text x="120" y="810" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="36" fill="#e06c75">punct</text>
+  <text x="460" y="810" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="36" fill="#939ba3">9..10</text>
+  <text x="720" y="810" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="36" fill="#e06c75">;</text>
+  <text x="120" y="890" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="36" fill="#58c6b8">comment</text>
+  <text x="460" y="890" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="36" fill="#939ba3">11..16</text>
+  <text x="720" y="890" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="36" fill="#58c6b8">// hi</text>
+</svg>

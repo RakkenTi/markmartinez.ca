@@ -7,6 +7,11 @@ const image = z.object({
   alt: z.string(),
 });
 
+const feature = image.extend({
+  title: z.string(),
+  text: z.string(),
+});
+
 const hero = z.object({
   alt: z.string(),
   frames: z.array(z.string()).min(1).max(4),
@@ -34,7 +39,7 @@ const projects = defineCollection({
       .default([]),
     hero,
     sections: z
-      .array(z.enum(['shots', 'funnel', 'metrics', 'writeup']))
+      .array(z.enum(['shots', 'features', 'funnel', 'metrics', 'writeup']))
       .default(['shots', 'funnel']),
     gallery: z.enum(['grid', 'marquee']).default('grid'),
     writeup: z
@@ -92,6 +97,7 @@ const projects = defineCollection({
       })
       .optional(),
     source: z.url().optional(),
+    crates: z.url().optional(),
     play: z.url().optional(),
     playdemo: z.url().optional(),
     shots: z
@@ -101,6 +107,15 @@ const projects = defineCollection({
         })
       )
       .default([]),
+    features: z.array(feature).default([]),
+    related: z
+      .object({
+        slug: z.string(),
+        title: z.string(),
+        text: z.string(),
+        cta: z.string(),
+      })
+      .optional(),
   }),
 });
 

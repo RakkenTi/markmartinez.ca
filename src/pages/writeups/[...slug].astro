@@ -5,7 +5,10 @@ import Base from "../../layouts/Base.astro";
 export async function getStaticPaths() {
     const projects = await getCollection("projects");
     return projects
-        .filter((entry) => (entry.body ?? "").trim().length > 0)
+        .filter(
+            (entry) =>
+                (entry.body ?? "").trim().length > 0 && entry.data.writeup,
+        )
         .map((entry) => ({
             params: { slug: entry.id },
             props: { entry },
@@ -46,7 +49,7 @@ const specs = [
                     stroke-linejoin="round"
                     aria-hidden="true"
                 >
-                    <path d="M13 8H4M7.5 4.5 4 8l3.5 3.5" />
+                    <path d="M13 8H4M7.5 4.5 4 8l3.5 3.5"></path>
                 </svg>
                 {entry.data.title}
             </a>

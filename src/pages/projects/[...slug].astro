@@ -1,5 +1,5 @@
 ---
-import { getCollection } from "astro:content";
+import { getCollection, render } from "astro:content";
 import Base from "../../layouts/Base.astro";
 import Gallery from "../../components/Gallery.tsx";
 import ProductHero from "../../components/product/ProductHero.astro";
@@ -7,6 +7,8 @@ import MoreProjects from "../../components/product/MoreProjects.astro";
 import Funnel from "../../components/product/Funnel.astro";
 import Metrics from "../../components/product/Metrics.astro";
 import WriteupCta from "../../components/product/WriteupCta.astro";
+import ProductFeatures from "../../components/product/ProductFeatures.astro";
+import RelatedProject from "../../components/product/RelatedProject.astro";
 
 export async function getStaticPaths() {
     const projects = await getCollection("projects");
@@ -21,10 +23,21 @@ export async function getStaticPaths() {
 }
 
 const { entry, others } = Astro.props;
-const { hero, highlights, layout, funnel, sections, metrics, gallery } =
-    entry.data;
+const {
+    hero,
+    highlights,
+    layout,
+    funnel,
+    sections,
+    metrics,
+    gallery,
+    features,
+    related,
+} = entry.data;
 
-const hasWriteup = (entry.body ?? "").trim().length > 0;
+const { Content } = await render(entry);
+const hasBody = (entry.body ?? "").trim().length > 0;
+const hasWriteup = hasBody && Boolean(entry.data.writeup);
 const writeupHref = hasWriteup ? `/writeups/${entry.id}/` : undefined;
 const writeupLabel = entry.data.writeup?.cta ?? "Read more";
 const writeupInFlow = sections.includes("writeup");
@@ -43,6 +56,7 @@ const tags = [...split(entry.data.language), ...split(entry.data.platform)];
 const links = [
     entry.data.play && ["Play", entry.data.play],
     entry.data.playdemo && ["Play demo", entry.data.playdemo],
+    entry.data.crates && ["Crates.io", entry.data.crates],
     entry.data.source && ["Source", entry.data.source],
 ].filter(Boolean) as [string, string][];
 
@@ -53,6 +67,10 @@ const more = others.map((other) => ({
     media: other.data.hero.frames[0],
     meta: `${other.data.year} / ${split(other.data.language)[0]}`,
 }));
+
+const relatedEntry = related
+    ? others.find((other) => other.id === related.slug)
+    : undefined;
 
 const shotsHeading =
     layout === "engine"
@@ -104,6 +122,14 @@ const shotsHeading =
         />
 
         {
+            hasBody && !hasWriteup && (
+                <section class="body" data-reveal aria-label="Overview">
+                    <Content />
+                </section>
+            )
+        }
+
+        {
             sections.map((section) => (
                 <Fragment>
                     {section === "shots" && shots.length > 0 && (
@@ -122,6 +148,9 @@ const shotsHeading =
                                 display={gallery}
                             />
                         </section>
+                    )}
+                    {section === "features" && features.length > 0 && (
+                        <ProductFeatures features={features} />
                     )}
                     {section === "funnel" && funnel && (
                         <Funnel
@@ -144,6 +173,19 @@ const shotsHeading =
                     )}
                 </Fragment>
             ))
+        }
+
+        {
+            related && relatedEntry && (
+                <RelatedProject
+                    title={related.title}
+                    text={related.text}
+                    href={`/projects/${relatedEntry.id}/`}
+                    label={related.cta}
+                    media={relatedEntry.data.hero.frames[0]}
+                    alt={relatedEntry.data.hero.alt}
+                />
+            )
         }
 
         <MoreProjects items={more} />
