@@ -26,7 +26,7 @@ export const site = {
     },
     {
       label: 'Languages',
-      value: 'C++, C, Go, Rust, Java, TypeScript, Python, Lua, Elixir, Haskell, Lisp, GDScript, Bash',
+      value: 'C++, C, Go, Rust, Java, TypeScript, Python, Lua, Elixir, Lisp, GDScript, Bash',
     },
     {
       label: 'Game development',
