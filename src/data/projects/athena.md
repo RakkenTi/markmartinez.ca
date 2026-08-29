@@ -2,7 +2,7 @@
 title: Athena
 summary: Store any information of all kinds; tasks, memories, notes, projects, and more in a unified and organized interface.
 year: '2026-Present'
-platform: Self-hosted, PWA and desktop client
+platform: Self-hosted, Docker, PWA, Electron Client, Playwright
 language: Go, TypeScript
 layout: app
 status: live
