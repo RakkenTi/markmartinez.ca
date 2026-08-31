@@ -1,5 +1,5 @@
 ---
-title: Godot Swarm
+title: Mimies
 summary: A C++ GDExtension that provides an all-in-one solution for handling thousands of physics simulated, animated, and pathfinding entities in Godot.
 year: '2026-Present'
 platform: Godot, GDExtension, godot-cpp
@@ -15,7 +15,7 @@ highlights:
     label: frame time
 order: 2
 writeup:
-  title: Godot Swarm's Technicals
+  title: Overview of Mimies
   cta: Technical details
 hero:
   alt: The extreme benchmark running roughly 48,000 entities at once.
@@ -24,6 +24,7 @@ hero:
   note: All entities in the scene are animated.The lag and blurriness is an artifact of the video not the scene.
   frames:
     - /media/godot-swarm-card.gif
+source: https://github.com/RakkenTi/mimies
 shots:
   - src: /media/godot-swarm-01.gif
     alt: A tight cluster of flyer entities swarming a target indoor.
@@ -103,9 +104,9 @@ sections:
 
 A game I am working on is inspired by various games I've played such as Risk Of Rain 2, Megabonk, and Noita. Between all of them, there is one particular mechanic I wanted to perfect in order to create an accessible game for even low-end devices: Swarms. Swarms are just groups of entities, large groups, a swarm of 500, 1000, or even 10,000 entities. I wasn't sure if this was possible, given that my game was 3D and up to 4 player coop (which made things WAY more complicated).
 
-Godot Swarm has been through several versions in its development, with each version being made to solve issues that the previous version had. However at its core, it is specifically made and catered towards a certain game I am currently working on.
+The library has been through several versions in its development, with each version being made to solve issues that the previous version had. However at its core, it is specifically made and catered towards a certain game I am currently working on.
 
-In its initial stages, Godot Swarm was built directly as part of the game, and wasn't really a separate framework at the time. It was implemented in GDScript and was called Nexus. It was able to handle up to 500 entities, but with no animations (as animations were expensive at that number), and no pathfinding. They were like Megabonk's entities, they simply went towards a point, climbing any obstacles they faced in the way, except they had no physics. Their vertical position was based on springs and raycasts, and their horizontal position also relied on raycasts. They had partial collision support, with entities only in close proximity to the player gaining rigidbodies.
+In its initial stages, Mimies was built directly as part of the game, and wasn't really a separate framework at the time. It was implemented in GDScript and was called Nexus. It was able to handle up to 500 entities, but with no animations (as animations were expensive at that number), and no pathfinding. They were like Megabonk's entities, they simply went towards a point, climbing any obstacles they faced in the way, except they had no physics. Their vertical position was based on springs and raycasts, and their horizontal position also relied on raycasts. They had partial collision support, with entities only in close proximity to the player gaining rigidbodies.
 
 It was not the best, but it was also my first time working with Godot and GDScript, so it served fine. Eventually, I found an [open-source plugin](https://github.com/antzGames/OpenVAT-for-Godot) and integrated it into the project which eventually allowed me much more while having them be animated, however it was still not the best solution, as each entity was a set of nodes, and was implemented in a naive GDScript solution.
 
@@ -113,9 +114,9 @@ Work on the project stopped for a few months as I finished my semester, but even
 
 ## Architecture
 
-Godot Swarm is fundamentally different at every part than Nexus. I decided to rewrite it as a C++ GDExtension because I had finished taking related courses such as Operating Systems, C, Data Structures, etc. I figured that it'd be a nice project to work and learn from. The main goal this time was to create a framework that not only handled entities, but also made integrating them easily into any project.
+Mimies is fundamentally different at every part when compared to Nexus. I decided to rewrite it as a C++ GDExtension because I had finished taking related courses such as Operating Systems, C, Data Structures, etc. I figured that it'd be a nice project to work and learn from. The main goal this time was to create a framework that not only handled entities, but also made integrating them easily into any project.
 
-The system is composed of a set of nodes and autoloads/singletons. Below are the *main* components that handle the core features of Godot Swarm:
+The system is composed of a set of nodes and autoloads/singletons. Below are the *main* components that handle the core features of Mimies:
 
 ## SwarmSystemRuntime (Node)
 A node that serves as the entry point for the runtime modules. It is meant to be placed inside a scene as the root, and that scene is meant to be registered as an Autoload. This node is responsible for initializing all runtime modules such as the Director, Nexus, Renderer, Query, Monitor, Physics, and Atom modules. The SwarmSystemRuntime module is also responsible for managing each sub modules lifecycle.
@@ -185,7 +186,7 @@ An entities next position factors in three core things: Stats, Boids, Flowfield,
 Line of sight is rechecked on an interval rather than every frame, using the coarse grid rather than the full one as accuracy is not important.
 
 ## Multiplayer
-Multiplayer is opt in and networking-implementation agnostic. The idea was that I wanted to make it as general as possible, which meant that all the extension does is expose functions that export and import data, and it would be up to each game to implement the networking solution that would transport that data. Godot Swarm packs and unpacks every data format in C++ and hands back PackedByteArray blobs, but leaves the actual transport between clients up to the game. In theory, ENet, WebRTC, Steam, EOS, should work (though I've only tested with ENet and Steam which are my usecases).
+Multiplayer is opt in and networking-implementation agnostic. The idea was that I wanted to make it as general as possible, which meant that all the extension does is expose functions that export and import data, and it would be up to each game to implement the networking solution that would transport that data. Mimies packs and unpacks every data format in C++ and hands back PackedByteArray blobs, but leaves the actual transport between clients up to the game. In theory, ENet, WebRTC, Steam, EOS, should work (though I've only tested with ENet and Steam which are my usecases).
 
 ## Benchmarks
 Each profile runs the same scene with a different agent count, and every number below comes straight out of the benchmark scene. Score is the scene's own weighting of frame time against agent count, so it is only comparable between runs of the same build.
