@@ -24,7 +24,6 @@ hero:
   note: All entities in the scene are animated.The lag and blurriness is an artifact of the video not the scene.
   frames:
     - /media/godot-swarm-card.gif
-source: https://github.com/RakkenTi/mimies
 shots:
   - src: /media/godot-swarm-01.gif
     alt: A tight cluster of flyer entities swarming a target indoor.
