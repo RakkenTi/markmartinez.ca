@@ -8,9 +8,9 @@ role: Solo Developer
 status: live
 layout: game
 highlights:
-  - value: 10.9M
+  - value: 11.1M
     label: visits
-  - value: 75K
+  - value: 77K
     label: favourites
   - value: 95%
     label: likes
